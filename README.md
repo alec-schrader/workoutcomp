@@ -1,3 +1,13 @@
+#Work Out Competition
+
+This project is a way for you and your friends to create, track, and score a workout competition.
+
+##Created with
+
+React
+React Router
+Material UI
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
