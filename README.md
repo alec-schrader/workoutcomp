@@ -1,8 +1,8 @@
-#Work Out Competition
+# Work Out Competition
 
 This project is a way for you and your friends to create, track, and score a workout competition.
 
-##Created with
+## Created with
 
 React
 React Router
