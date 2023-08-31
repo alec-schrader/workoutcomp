@@ -13,21 +13,44 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import NewComp from './pages/NewComp';
 import JoinComp from './pages/JoinComp';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#fcb700',
+    },
+    secondary: {
+      main: '#6f5c07',
+    },
+    background: {
+      default: '#838282',
+      paper: '#ffffff',
+    },
+    text: {
+      secondary: 'rgba(255,255,255,0.6)',
+    },
+  },
+  spacing: 8,
+});
 
 export default function App() {
   return (
     <React.Fragment>
-      <CssBaseline />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="new-comp" element={<NewComp />} />
-            <Route path="join-comp" element={<JoinComp />} />
-            <Route path="*" element={<NoPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="new-comp" element={<NewComp />} />
+              <Route path="join-comp" element={<JoinComp />} />
+              <Route path="*" element={<NoPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </React.Fragment>
   );
 }
