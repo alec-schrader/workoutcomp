@@ -5,8 +5,6 @@ import SportsBarIcon from '@mui/icons-material/SportsBar';
 
 
 export default function AppFooter() {
-  const [value, setValue] = React.useState(0);
-
   return (
     <Paper sx={{marginTop: 'calc(10% + 60px)',
       position: 'fixed',

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Box, TextField, Button, ButtonGroup} from "@mui/material";
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { Container, Box, TextField, Button, ButtonGroup, Paper} from "@mui/material";
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import PersonRemove from '@mui/icons-material/PersonRemove';
@@ -33,72 +32,74 @@ export default function NewComp() {
             textAlign: 'center',
             alignItems:'center'
           }}>
-            <h1>A New Challenge?</h1>
-            <Box
-                display="row"
-                justifyContent="center"
-                alignItems="center"
-                minHeight="100vh"
-                noValidate
-                autoComplete="off"
-                sx={{
-                    '& .MuiTextField-root': { m: 1, width: '25ch' },
-                  }}
-            >
-                <h2>What are the rules?</h2>
-                radiobuttons with premade ruleset
+            <Paper>
+                <Box pt={2} pb={2}>
+                    <h1>A New Challenge?</h1>
+                    <Box
+                        display="row"
+                        justifyContent="center"
+                        alignItems="center"
+                        noValidate
+                        autoComplete="off"
+                        sx={{
+                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                        }}
+                    >
+                        <h2>What are the rules?</h2>
+                        radiobuttons with premade ruleset
 
-                <h2>Who else is joining?</h2>
-                <p>Enter the email addresses of everyone that you would like to join your competition.</p>
-                {emailList()}
-                <br></br>
-                <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                    <Button onClick={() => setnumEmails(numEmails - 1)}><PersonRemove sx={{ display: { md: 'flex' }, mr: 1 }} /></Button>
-                    <Button onClick={() => setnumEmails(numEmails + 1)}><PersonAdd sx={{ display: { md: 'flex' }, mr: 1 }} /></Button>
-                </ButtonGroup>
-                <h2>What about you?</h2>
-                <TextField
-                    required
-                    id="displayname"
-                    label="Display Name"
-                    helperText="The name you would like to use in the competition."
-                />
-                <TextField
-                    required
-                    type={"password"}
-                    id="password"
-                    label="Password"
-                />
-                <TextField
-                    required
-                    type={"password"}
-                    id="confimrpassword"
-                    label="Confirm Password"
-                />
-                <h2>Competition Information</h2>
-                <TextField
-                    required
-                    id="compname"
-                    label="Competition Name"
-                />
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <MobileDatePicker 
-                        label="Start Date"
-                        inputFormat="MM/DD/YYYY"
-                        renderInput={(params) => <TextField {...params} />}
-                        value={startDate}
-                        onChange={setstartDate}
+                        <h2>Who else is joining?</h2>
+                        <p>Enter the email addresses of everyone that you would like to join your competition.</p>
+                        {emailList()}
+                        <br></br>
+                        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                            <Button onClick={() => setnumEmails(numEmails - 1)}><PersonRemove sx={{ display: { md: 'flex' }, mr: 1 }} /></Button>
+                            <Button onClick={() => setnumEmails(numEmails + 1)}><PersonAdd sx={{ display: { md: 'flex' }, mr: 1 }} /></Button>
+                        </ButtonGroup>
+                        <h2>What about you?</h2>
+                        <TextField
+                            required
+                            id="displayname"
+                            label="Display Name"
+                            helperText="The name you would like to use in the competition."
                         />
-                    <MobileDatePicker
-                        label="End Date"
-                        inputFormat="MM/DD/YYYY"
-                        renderInput={(params) => <TextField {...params} />}
-                        value={endDate}
-                        onChange={setendDate}
+                        <TextField
+                            required
+                            type={"password"}
+                            id="password"
+                            label="Password"
                         />
-                </LocalizationProvider>
-            </Box>
-
+                        <TextField
+                            required
+                            type={"password"}
+                            id="confimrpassword"
+                            label="Confirm Password"
+                        />
+                        <h2>Competition Information</h2>
+                        <TextField
+                            required
+                            id="compname"
+                            label="Competition Name"
+                        />
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <MobileDatePicker 
+                                label="Start Date"
+                                inputFormat="MM/DD/YYYY"
+                                renderInput={(params) => <TextField {...params} />}
+                                value={startDate}
+                                onChange={setstartDate}
+                                />
+                            <MobileDatePicker
+                                label="End Date"
+                                inputFormat="MM/DD/YYYY"
+                                renderInput={(params) => <TextField {...params} />}
+                                value={endDate}
+                                onChange={setendDate}
+                                />
+                        </LocalizationProvider>
+                    </Box>
+                </Box>
+            </Paper>
         </Container>
     );
 };  

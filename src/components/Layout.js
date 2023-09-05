@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
 import { Box } from "@mui/material";
