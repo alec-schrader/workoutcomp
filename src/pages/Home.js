@@ -2,9 +2,49 @@ import * as React from 'react';
 import { Button, Container, Divider, Grid, Typography, Box, Paper } from "@mui/material";
 import LoginButton from '../components/LoginButton';
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from 'axios';
 
 export default function Home() {
-    const { isAuthenticated } = useAuth0();
+    const { isAuthenticated, isLoading, user, getAccessTokenSilently  } = useAuth0();
+    const domain = '127.0.0.1:8000'
+
+    var comp = {
+        name: 'new comp',
+        startdate: '1/1/2000',
+        enddate: '1/1/2001',
+        ruleset: 1,
+        code: "test",
+        owner: "alecschrader",
+        users: [1]
+    }
+    const getUserMetadata = async () => {
+        try {
+            const accessToken = await getAccessTokenSilently({
+                authorizationParams: {
+                    redirect_uri: window.location.origin,
+                    audience: "workoutcomp-api",
+                    scope: "list:competition create:competition retrieve:competition update:competition destroy:competition"
+                },
+            });
+
+            console.log(accessToken)
+
+            const newCompURL = `http://${domain}/users/`;
+            const config = {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            };
+
+            axios.get(newCompURL, config).then(console.log).catch(console.log);
+        } catch (e) {
+            console.log(e.message);
+        }
+    }
+        
+    getUserMetadata();
+
+    if(isLoading){
+        return <div>Loading...</div>
+    }
 
     return (
         <Container sx={{
@@ -15,7 +55,7 @@ export default function Home() {
                 <Box pt={2} pb={2}>
                     <Grid container>
                         <Grid item md={12} sm={12} xs={12}>
-                            <Typography variant='h2'>Welcome Primals!</Typography>
+                            <Typography variant='h2'>Welcome {user ? user.name : "Primal"}!!!</Typography>
                             <Divider></Divider>
                         </Grid>
                         <Grid item md={12} sm={12} xs={12}>

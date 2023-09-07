@@ -5,14 +5,15 @@ import { Auth0Provider } from '@auth0/auth0-react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-<Auth0Provider
-    domain="dev-mxnk6f4ep8oxln5o.us.auth0.com"
-    clientId="0i5DZ3tSxNQsM2N4ImODLhfg0D6saJuX"
-    authorizationParams={{
-      redirect_uri: window.location.origin
-    }}
-  >  
+  <Auth0Provider
+      domain={process.env.REACT_APP_AUTH0_DOMAIN}
+      clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+        audience: "workoutcomp-api",
+        scope: "list:competition create:competition retrieve:competition update:competition destroy:competition"
+      }}
+    >  
     <App />
   </Auth0Provider>
-
 );
