@@ -6,6 +6,10 @@ import Container from '@mui/material/Container';
 import SportsBarIcon from '@mui/icons-material/SportsBar';
 import LogoutButton from './LogoutButton';
 import LoginButton from './LoginButton';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth0 } from "@auth0/auth0-react";
 
 
@@ -15,56 +19,28 @@ function AppHeader() {
   let button;
   if (isAuthenticated) {
     button = <LogoutButton />;    
-  } else {
-    button = <LoginButton/>;    
   }
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <SportsBarIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <SportsBarIcon  />
+          <Typography variant="h6" component="div" sx={{ 
+            flexGrow: 1,
+            mr: 2,
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '.3rem',
+            color: 'inherit',
+            textDecoration: 'none',  
+          }}>
             UNSOBER OCTOBER
           </Typography>
-
-          <SportsBarIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            UNSOBER OCTOBER
-          </Typography>
+          {button}
         </Toolbar>
-        {button}
-      </Container>
-    </AppBar>
+      </AppBar>
+    </Box>
   );
 }
 export default AppHeader;
