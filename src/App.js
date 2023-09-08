@@ -1,7 +1,8 @@
 import * as React from 'react';
-import CSSProperties from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
+import PageLoader from "./components/PageLoader";
+import AuthenticationGuard from "./components/AuthenticationGuard";
 import Home from "./pages/Home";
 import Welcome from "./pages/Welcome";
 import NoPage from "./pages/NoPage";
@@ -12,6 +13,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import './App.css';
 import NewComp from './pages/NewComp';
 import JoinComp from './pages/JoinComp';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -41,13 +43,9 @@ const theme = createTheme({
 export default function App() {
   const {isLoading, isAuthenticated } = useAuth0();
 
-  if (isLoading) {
-    return (
-      <div className="page-layout">
-        Loading...
-      </div>
-    );
-  }
+  let indexRoute = <Route index element={<Welcome />} />;
+  if(isLoading) indexRoute = <Route index element={<PageLoader />} />;
+  if(isAuthenticated) indexRoute = <Route index element={<AuthenticationGuard component={Home} />} />;
 
   return (
     <React.Fragment>
@@ -56,9 +54,9 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
-              {!isAuthenticated ? <Route index element={<Welcome />} /> : <Route index element={<Home />} />}
-              <Route path="new-comp" element={<NewComp />} />
-              <Route path="join-comp" element={<JoinComp />} />
+              {indexRoute}
+              <Route path="new-comp" element={<AuthenticationGuard component={NewComp} />} />
+              <Route path="join-comp" element={<AuthenticationGuard component={JoinComp} />} />
               <Route path="*" element={<NoPage />} />
             </Route>
           </Routes>

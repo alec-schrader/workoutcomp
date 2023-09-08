@@ -11,7 +11,7 @@ root.render(
       authorizationParams={{
         redirect_uri: window.location.origin,
         audience: "workoutcomp-api",
-        scope: "list:competition create:competition retrieve:competition update:competition destroy:competition"
+        scope: "openid profile email"
       }}
     >  
     <App />

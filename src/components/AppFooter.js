@@ -28,7 +28,7 @@ export default function AppFooter() {
               textDecoration: 'none',
             }}
           >
-            UNSOBER OCTOBER
+            Workout With Friends
           </Typography>
       </Paper>
   );
