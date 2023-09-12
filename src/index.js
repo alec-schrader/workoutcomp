@@ -2,6 +2,9 @@ import * as React from 'react';
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { Auth0Provider } from '@auth0/auth0-react';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -10,10 +13,15 @@ root.render(
       clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
       authorizationParams={{
         redirect_uri: window.location.origin,
-        audience: "workoutcomp-api",
-        scope: "openid profile email"
+        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+        scope: "openid profile email",
       }}
+      useRefreshTokens
+      cacheLocation="localstorage"
     >  
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+
     <App />
+    </LocalizationProvider>
   </Auth0Provider>
 );

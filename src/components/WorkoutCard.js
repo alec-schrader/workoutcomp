@@ -1,9 +1,7 @@
 import React from "react";
 import { Card, CardActionArea, CardContent, CardActions, Typography, Button, Grid } from "@mui/material";
-import LeaderboardChart from "./LeaderboardChart";
-import CompetitionDatePercentage from "./CompetitionDatePercentage";
 
-const CompetitionCard = (competition) => {
+const WorkoutCard = (workout) => {
   return (
   <Card>
     <CardActionArea>
@@ -11,14 +9,8 @@ const CompetitionCard = (competition) => {
           <Grid container>
             <Grid item xs={12}>
               <Typography gutterBottom variant="h5" component="div">
-                {competition.name ? competition.name : "Competition"}
+                {workout.date}
               </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <LeaderboardChart></LeaderboardChart>
-            </Grid>
-            <Grid item xs={4}>
-              <CompetitionDatePercentage startdate='9/1/2023' enddate='9/31/2023'></CompetitionDatePercentage>
             </Grid>
           </Grid>
         </CardContent>
@@ -32,4 +24,4 @@ const CompetitionCard = (competition) => {
   )
 };
 
-export default CompetitionCard;
+export default WorkoutCard;

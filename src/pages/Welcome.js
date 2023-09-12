@@ -18,7 +18,7 @@ export default function Welcome() {
                         </Grid>
                         <Grid item md={12} sm={12} xs={12}>
                             <Typography variant='body1'>
-                                Do you struggle with acountibility with your workouts?
+                                Do you struggle with accountability on your workouts?
                                 <br></br>
                                 Create a competition, add your friends, and workout together!
                             </Typography>

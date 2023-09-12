@@ -21,7 +21,7 @@ function AppHeader() {
       <AppBar position="static">
         <Toolbar>
           <FitnessCenterIcon  />
-          <Typography variant="h6" component="div" sx={{ 
+          <Typography variant="h6" component="a" href="/" sx={{ 
             flexGrow: 1,
             ml: 2,
             fontFamily: 'monospace',

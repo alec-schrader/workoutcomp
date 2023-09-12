@@ -8,7 +8,7 @@ const Layout = () => {
   return (
     <>
       <AppHeader></AppHeader>
-        <Box pt={3} pb={1}>
+        <Box pt={3} pb={3}>
           <Outlet/>
         </Box>
       <AppFooter></AppFooter>
