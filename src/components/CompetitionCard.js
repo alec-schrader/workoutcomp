@@ -3,7 +3,8 @@ import { Card, CardActionArea, CardContent, CardActions, Typography, Button, Gri
 import LeaderboardChart from "./LeaderboardChart";
 import CompetitionDatePercentage from "./CompetitionDatePercentage";
 
-const CompetitionCard = (competition) => {
+const CompetitionCard = (props) => {
+
   return (
   <Card>
     <CardActionArea>
@@ -11,14 +12,14 @@ const CompetitionCard = (competition) => {
           <Grid container>
             <Grid item xs={12}>
               <Typography gutterBottom variant="h5" component="div">
-                {competition.name ? competition.name : "Competition"}
+                {props.competition.name ? props.competition.name : "Competition"}
               </Typography>
             </Grid>
             <Grid item xs={8}>
               <LeaderboardChart></LeaderboardChart>
             </Grid>
             <Grid item xs={4}>
-              <CompetitionDatePercentage startdate='9/1/2023' enddate='9/31/2023'></CompetitionDatePercentage>
+              <CompetitionDatePercentage startdate={props.competition.startdate} enddate={props.competition.enddate}></CompetitionDatePercentage>
             </Grid>
           </Grid>
         </CardContent>

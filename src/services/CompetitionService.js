@@ -4,7 +4,7 @@ const domain = process.env.REACT_APP_API_SERVER_URL;
 
 const getCompetitionData = async (accessToken, competitionID) => {
   try {
-      const newCompURL = `${domain}/competition/${competitionID}`;
+      const newCompURL = `${domain}/competitions/${competitionID}`;
 
       const config = {
           headers: { Authorization: `Bearer ${accessToken}` }
@@ -20,13 +20,13 @@ const getCompetitionData = async (accessToken, competitionID) => {
 
 const createCompetition = async (accessToken, competition) => {
   try {
-      const newCompURL = `${domain}/competition/`;
+      const newCompURL = `${domain}/competitions/`;
 
       const config = {
           headers: { Authorization: `Bearer ${accessToken}` }
       };
 
-      axios.put(newCompURL, competition, config).then((result) => {
+      axios.post(newCompURL, competition, config).then((result) => {
         return result
       }).catch(console.log);
   } catch (e) {
@@ -36,7 +36,7 @@ const createCompetition = async (accessToken, competition) => {
 
 const addUsertoCompetition = async (accessToken, competitionId, userID) => {
   try {
-      const newCompURL = `${domain}/competition/${competitionId}/addUser/`;
+      const newCompURL = `${domain}/competitions/${competitionId}/addUser/`;
 
       const config = {
           headers: { Authorization: `Bearer ${accessToken}` }

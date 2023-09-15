@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardActionArea, CardContent, CardActions, Typography, Button, Grid } from "@mui/material";
 
-const WorkoutCard = (workout) => {
+const WorkoutCard = (parms) => {
   return (
   <Card>
     <CardActionArea>
@@ -9,14 +9,14 @@ const WorkoutCard = (workout) => {
           <Grid container>
             <Grid item xs={12}>
               <Typography gutterBottom variant="h5" component="div">
-                {workout.date}
+                {parms.workout.date}
               </Typography>
             </Grid>
           </Grid>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" href={`/workout/${parms.workout.id}`}>
           View Detail
         </Button>
       </CardActions>

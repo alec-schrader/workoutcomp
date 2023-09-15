@@ -11,7 +11,6 @@ export default function Home() {
     const [ apiUser, setApiUser ] = useState({});
 
     useEffect(() => {
-        // React advises to declare the async function directly inside useEffect
         async function getApiUser() {
           const token = await getAccessTokenSilently();
           const resp =  await getUserData(token, user.sub);
@@ -62,7 +61,7 @@ export default function Home() {
                         <Grid item md={6} xs={12}>
                             <Typography variant='h4'>Workouts</Typography>
                             <Divider></Divider>
-                            <Button variant='contained' href='new-workout'>Add Workout</Button>
+                            <Button variant='contained' href='workout'>Add Workout</Button>
                             {workoutList()}
                         </Grid>
                     </Grid>

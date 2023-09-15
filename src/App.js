@@ -5,6 +5,7 @@ import PageLoader from "./components/PageLoader";
 import AuthenticationGuard from "./components/AuthenticationGuard";
 import Home from "./pages/Home";
 import Welcome from "./pages/Welcome";
+import Workout from "./pages/Workout";
 import NoPage from "./pages/NoPage";
 
 import CssBaseline from '@mui/material/CssBaseline';
@@ -57,6 +58,7 @@ export default function App() {
               {indexRoute}
               <Route path="new-comp" element={<AuthenticationGuard component={NewComp} />} />
               <Route path="join-comp" element={<AuthenticationGuard component={JoinComp} />} />
+              <Route path="workout/:workoutId?" element={<AuthenticationGuard component={Workout} />} />
               <Route path="*" element={<NoPage />} />
             </Route>
           </Routes>

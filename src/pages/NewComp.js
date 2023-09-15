@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { Grid, Container, Box, TextField, Button, ButtonGroup, Paper, Typography, Divider, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel} from "@mui/material";
+import { Grid, Container, Box, TextField, Button, ButtonGroup, Paper, Typography, Divider, RadioGroup, Radio} from "@mui/material";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import PersonRemove from '@mui/icons-material/PersonRemove';
 import RuleCard from '../components/RuleCard'
 import dayjs from 'dayjs';
+import { useAuth0 } from "@auth0/auth0-react";
+import { createCompetition } from '../services/CompetitionService'
+import ruleChoices from '../data/competitionRules'
 
 
 export default function NewComp() {
+    const { getAccessTokenSilently  } = useAuth0();
     const [ruleSet, setRuleSet] = useState(1);
     const [numEmails, setnumEmails] = useState(3);
     const [emails, setEmails] = useState([]);
@@ -32,29 +36,6 @@ export default function NewComp() {
         </Grid>);
     }
 
-    const ruleChoices = [
-        {
-            value: 1,
-            name: "Standard",
-            description: "A balanced ruleset with no category prioritized over another."
-        },
-        {
-            value: 2,
-            name: "Strength Focus",
-            description: "A ruleset that gives more points to strength based exercises."
-        },
-        {
-            value: 3,
-            name: "Cardio Focus",
-            description: "A ruleset that gives more points to cardio based exercises."
-        },
-        {
-            value: 4,
-            name: "Wellness Focus",
-            description: "A ruleset that gives more points to wellness based exercises."
-        },
-    ]
-
     const ruleList = () => {
         return ruleChoices.map((rule) =>  
         <Grid item xs={12} sm={3} key={rule.value}>
@@ -68,9 +49,19 @@ export default function NewComp() {
         );
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
-        console.log(ruleSet, numEmails, compName, compCode, startDate.toString(), endDate.toString());
+        const token = await getAccessTokenSilently()
+        const newComp = {
+            name: compName,
+            startdate: startDate.format("YYYY-MM-DD"),
+            enddate: endDate.format("YYYY-MM-DD"),
+            ruleset: ruleSet,
+            code: compCode,
+            users: []
+        }
+        console.log(newComp)
+        createCompetition(token, newComp)
     }
 
     return (
