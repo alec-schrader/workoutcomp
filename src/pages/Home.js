@@ -54,12 +54,17 @@ export default function Home() {
                             <Typography variant='h4' gutterBottom>Competitions</Typography>
                             <Button variant='contained' href='new-comp'>Create Competition</Button>
                             - or - 
-                            <Button variant='contained' href='new-comp'>Join Competition</Button>
-                            {competitionList()}
+                            <Button variant='contained' href='join-comp'>Join Competition</Button>
+                            
                         </Grid>
                         <Grid item md={6} xs={12} mb={1}>
                             <Typography variant='h4' gutterBottom>Workouts</Typography>
                             <Button variant='contained' href='workout'>Add Workout</Button>
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                            {competitionList()}
+                        </Grid>
+                        <Grid item md={6} xs={12}>
                             {workoutList()}
                         </Grid>
                     </Grid>

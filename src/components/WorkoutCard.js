@@ -1,11 +1,11 @@
 import React from "react";
-import { Card, CardActionArea, CardContent, CardActions, Typography, Button, Grid } from "@mui/material";
+import { Card, CardContent, CardActions, Typography, Button, Grid, Divider } from "@mui/material";
 import categoryChoices from '../data/workoutCategories'
 
 const WorkoutCard = (parms) => {
   const workout = parms.workout;
-  console.log(workout);
   const category = categoryChoices[workout.category - 1].name;
+
   return (
   <Card>
       <CardContent>                        
@@ -15,19 +15,37 @@ const WorkoutCard = (parms) => {
               {workout.date}
             </Typography>
           </Grid>
+          <Grid item xs={12}>
+            <Divider></Divider>
+          </Grid>
           <Grid item xs={4}>
-            <Typography variant="body1" component="div">
-              Category: {category}
+            <Typography variant="bold" component="b">
+              Category: 
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="bold" component="b">
+              Duration:
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="bold" component="b">
+              Intensity: 
             </Typography>
           </Grid>
           <Grid item xs={4}>
             <Typography variant="body1" component="div">
-              Duration: {workout.duration} minutes
+              {category}
             </Typography>
           </Grid>
           <Grid item xs={4}>
             <Typography variant="body1" component="div">
-              Intensity: {workout.intensity}
+              {workout.duration} minutes
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="body1" component="div">
+              {workout.intensity}
             </Typography>
           </Grid>
         </Grid>

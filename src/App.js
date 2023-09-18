@@ -7,6 +7,9 @@ import Home from "./pages/Home";
 import Welcome from "./pages/Welcome";
 import Workout from "./pages/Workout";
 import NoPage from "./pages/NoPage";
+import Competition from './pages/Competition';
+import NewComp from './pages/NewComp';
+import JoinComp from './pages/JoinComp';
 
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -15,8 +18,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './App.css';
-import NewComp from './pages/NewComp';
-import JoinComp from './pages/JoinComp';
+
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import { useAuth0 } from "@auth0/auth0-react";
@@ -58,6 +60,7 @@ export default function App() {
               {indexRoute}
               <Route path="new-comp" element={<AuthenticationGuard component={NewComp} />} />
               <Route path="join-comp" element={<AuthenticationGuard component={JoinComp} />} />
+              <Route path="competition/:competitionId?" element={<AuthenticationGuard component={Competition} />} />
               <Route path="workout/:workoutId?" element={<AuthenticationGuard component={Workout} />} />
               <Route path="*" element={<NoPage />} />
             </Route>

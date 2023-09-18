@@ -4,7 +4,8 @@ import LeaderboardChart from "./LeaderboardChart";
 import CompetitionDatePercentage from "./CompetitionDatePercentage";
 
 const CompetitionCard = (props) => {
-
+  const competition = props.competition;
+  console.log(competition)
   return (
   <Card>
     <CardActionArea>
@@ -12,20 +13,20 @@ const CompetitionCard = (props) => {
           <Grid container>
             <Grid item xs={12}>
               <Typography gutterBottom variant="h5" component="div">
-                {props.competition.name ? props.competition.name : "Competition"}
+                {competition.name ? competition.name : "Competition"}
               </Typography>
             </Grid>
             <Grid item xs={8}>
               <LeaderboardChart></LeaderboardChart>
             </Grid>
             <Grid item xs={4}>
-              <CompetitionDatePercentage startdate={props.competition.startdate} enddate={props.competition.enddate}></CompetitionDatePercentage>
+              <CompetitionDatePercentage startdate={competition.startdate} enddate={competition.enddate}></CompetitionDatePercentage>
             </Grid>
           </Grid>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" href={`/competition/${competition.id}`}>
           View Detail
         </Button>
       </CardActions>

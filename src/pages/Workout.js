@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
-import { Grid, Container, Box, TextField, Button, ButtonGroup, Paper, Typography, Divider, RadioGroup, Radio, FormLabel, FormControlLabel} from "@mui/material";
+import { Grid, Container, Box, TextField, Button, Paper, Typography, Divider, RadioGroup, Radio, FormControlLabel} from "@mui/material";
 import dayjs from 'dayjs';
 import { useAuth0 } from "@auth0/auth0-react";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -31,7 +31,7 @@ export default function Workout() {
         };
     
         if(workoutId) getData();
-    }, [getAccessTokenSilently]);
+    }, [getAccessTokenSilently, workoutId]);
 
 
     const categoryList = () => {
