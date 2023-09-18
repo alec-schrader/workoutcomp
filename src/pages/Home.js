@@ -50,15 +50,15 @@ export default function Home() {
                         </Grid>
                     </Grid>                    
                     <Grid container spacing={2}>
-                        <Grid item md={6} xs={12}>
-                            <Typography variant='h4'>Competitions</Typography>
-                            <Divider></Divider>
-                            <Button variant='contained' href='new-comp'>Create or Join Competition</Button>
+                        <Grid item md={6} xs={12} mb={1}>
+                            <Typography variant='h4' gutterBottom>Competitions</Typography>
+                            <Button variant='contained' href='new-comp'>Create Competition</Button>
+                            - or - 
+                            <Button variant='contained' href='new-comp'>Join Competition</Button>
                             {competitionList()}
                         </Grid>
-                        <Grid item md={6} xs={12}>
-                            <Typography variant='h4'>Workouts</Typography>
-                            <Divider></Divider>
+                        <Grid item md={6} xs={12} mb={1}>
+                            <Typography variant='h4' gutterBottom>Workouts</Typography>
                             <Button variant='contained' href='workout'>Add Workout</Button>
                             {workoutList()}
                         </Grid>

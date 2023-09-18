@@ -8,10 +8,10 @@ const Layout = () => {
   return (
     <>
       <AppHeader></AppHeader>
-        <Box pt={3} pb={3}>
+        <Box pt={10} pb={3}>
           <Outlet/>
         </Box>
-      <AppFooter></AppFooter>
+      {/* <AppFooter></AppFooter> */}
     </>
   )
 };

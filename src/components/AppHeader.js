@@ -18,7 +18,7 @@ function AppHeader() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <FitnessCenterIcon  />
           <Typography variant="h6" component="a" href="/" sx={{ 

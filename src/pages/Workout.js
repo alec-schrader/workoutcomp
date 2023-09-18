@@ -30,7 +30,7 @@ export default function Workout() {
           setIntensity(resp.intensity)
         };
     
-        getData();
+        if(workoutId) getData();
     }, [getAccessTokenSilently]);
 
 
@@ -49,13 +49,13 @@ export default function Workout() {
             duration: (parseInt(durationHours) * 60) + parseInt(durationMinutes),
             intensity: intensity,
         }
-        console.log(newWorkout)
         if(workoutId){
             newWorkout.id = workoutId;
-            updateWorkout(token, workoutId, newWorkout);
+            await updateWorkout(token, workoutId, newWorkout);
         } else {
-            createWorkout(token, newWorkout);
+            await createWorkout(token, newWorkout);
         }
+        window.location.replace('/');
     }
 
     return (
