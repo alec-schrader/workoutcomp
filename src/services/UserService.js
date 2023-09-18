@@ -1,22 +1,18 @@
-import axios from 'axios';
+import {callApi} from './ApiService';
 
-const domain = process.env.REACT_APP_API_SERVER_URL;
+const apiUrl = process.env.REACT_APP_API_SERVER_URL;
 
-const getUserData = async (accessToken, userid) => {
-  const urlUserid = userid.replace('auth0|', '')
-
-  const newCompURL = `${domain}/users/username/${urlUserid}`;
+const getUser = async (userid) => {
+  const apiUserId = userid.replace('auth0|', '')
 
   const config = {
-      headers: { Authorization: `Bearer ${accessToken}` }
+    url: `${apiUrl}/users/username/${apiUserId}/`,
+    method: "GET",
   };
 
-  try{
-    const response = await axios.get(newCompURL, config);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+  const resp = await callApi(config);
+  console.log(resp)
+  return resp.data
 }
 
-export { getUserData }
+export { getUser }

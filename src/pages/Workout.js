@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 import { Grid, Container, Box, TextField, Button, Paper, Typography, Divider, RadioGroup, Radio, FormControlLabel} from "@mui/material";
 import dayjs from 'dayjs';
-import { useAuth0 } from "@auth0/auth0-react";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { createWorkout, getWorkout, updateWorkout } from '../services/WorkoutService'
 import categoryChoices from '../data/workoutCategories'
@@ -11,7 +10,6 @@ import categoryChoices from '../data/workoutCategories'
 
 export default function Workout() {
     const { workoutId } = useParams();
-    const { getAccessTokenSilently  } = useAuth0();
     const [category, setCategory] = useState(1);
     const [date, setDate] = useState(dayjs());
     const [durationHours, setDurationHours] = useState(0);
@@ -20,9 +18,7 @@ export default function Workout() {
 
     useEffect(() => {
         async function getData() {
-          const token = await getAccessTokenSilently();
-          const resp =  await getWorkout(token, workoutId); 
-          console.log(resp)         
+          const resp =  await getWorkout(workoutId); 
           setCategory(resp.category)
           setDate(dayjs(resp.date))
           setDurationHours(Math.floor(resp.duration/60))
@@ -31,7 +27,7 @@ export default function Workout() {
         };
     
         if(workoutId) getData();
-    }, [getAccessTokenSilently, workoutId]);
+    }, [workoutId]);
 
 
     const categoryList = () => {
@@ -42,7 +38,6 @@ export default function Workout() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const token = await getAccessTokenSilently()
         const newWorkout = {
             category: category,
             date: date.format("YYYY-MM-DD"),
@@ -51,9 +46,9 @@ export default function Workout() {
         }
         if(workoutId){
             newWorkout.id = workoutId;
-            await updateWorkout(token, workoutId, newWorkout);
+            await updateWorkout(workoutId, newWorkout);
         } else {
-            await createWorkout(token, newWorkout);
+            await createWorkout(newWorkout);
         }
         window.location.replace('/');
     }

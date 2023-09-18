@@ -1,52 +1,49 @@
-import axios from 'axios';
+import {callApi} from './ApiService';
 
-const domain = process.env.REACT_APP_API_SERVER_URL;
+const apiUrl = process.env.REACT_APP_API_SERVER_URL;
 
-const getCompetitionData = async (accessToken, competitionID) => {
-  const newCompURL = `${domain}/competitions/${competitionID}/`;
-
+const getCompetition = async (competitionID) => {
   const config = {
-      headers: { Authorization: `Bearer ${accessToken}` }
+    url: `${apiUrl}/competitions/${competitionID}/`,
+    method: "GET",
   };
 
-  const resp = await axios.get(newCompURL, config);
+  const resp = await callApi(config);
   return resp.data
 }
 
-const getCompetitionByCode = async (accessToken, compCode) => {
-  const newCompURL = `${domain}/competitions/code/${compCode}/`;
-
+const getCompetitionByCode = async (compCode) => {
   const config = {
-      headers: { Authorization: `Bearer ${accessToken}` }
+    url: `${apiUrl}/competitions/code/${compCode}/`,
+    method: "GET",
   };
 
-  const resp = await axios.get(newCompURL, config);
+  const resp = await callApi(config);
   return resp.data
 }
 
-const createCompetition = async (accessToken, competition) => {
-  const newCompURL = `${domain}/competitions/`;
-
+const createCompetition = async (competition) => {
   const config = {
-      headers: { Authorization: `Bearer ${accessToken}` }
+    url: `${apiUrl}/competitions/`,
+    method: "POST",
+    data: competition
   };
 
-  const resp = await axios.post(newCompURL, competition, config);
-  return resp.data;
+  const resp = await callApi(config);
+  return resp.data
 }
 
-const addUsertoCompetition = async (accessToken, competitionCode) => {
+const addUsertoCompetition = async (competitionCode) => {
   //get comp id
-  const comp = await getCompetitionByCode(accessToken, competitionCode);
-  console.log(comp)
-  const newCompURL = `${domain}/competitions/${comp.id}/addUser/`;
+  const comp = await getCompetitionByCode(competitionCode);
 
   const config = {
-      headers: { Authorization: `Bearer ${accessToken}` }
+    url: `${apiUrl}/competitions/${comp.id}/addUser/`,
+    method: "PUT",
   };
 
-  const resp = await axios.put(newCompURL, {}, config);
-  return resp.data;
+  const resp = await callApi(config);
+  return resp.data
 }
 
-export { getCompetitionData, createCompetition, addUsertoCompetition }
+export { getCompetition, createCompetition, addUsertoCompetition }

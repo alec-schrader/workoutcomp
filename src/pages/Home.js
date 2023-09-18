@@ -4,23 +4,22 @@ import { Container, Divider, Grid, Typography, Box, Paper, Button } from "@mui/m
 import CompetitionCard from '../components/CompetitionCard';
 import WorkoutCard from '../components/WorkoutCard';
 import { useAuth0 } from "@auth0/auth0-react";
-import { getUserData } from '../services/UserService'
+import { getUser } from '../services/UserService'
 
 export default function Home() {
-    const { user, getAccessTokenSilently  } = useAuth0();
+    const { user } = useAuth0();
     const [ apiUser, setApiUser ] = useState({});
 
     useEffect(() => {
         async function getApiUser() {
-          const token = await getAccessTokenSilently();
-          const resp =  await getUserData(token, user.sub);
+          const resp =  await getUser(user.sub);
           setApiUser(resp);
         };
     
         if (!apiUser.id) {
             getApiUser();
         }
-    }, [apiUser, getAccessTokenSilently, user]);
+    }, [apiUser, user]);
 
     const competitionList = () => {
         if(apiUser.competitions == null) return <div></div>

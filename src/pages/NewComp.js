@@ -3,13 +3,11 @@ import { Grid, Container, Box, TextField, Button, Paper, Typography, Divider, Ra
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import RuleCard from '../components/RuleCard'
 import dayjs from 'dayjs';
-import { useAuth0 } from "@auth0/auth0-react";
 import { createCompetition } from '../services/CompetitionService'
 import ruleChoices from '../data/competitionRules'
 
 
 export default function NewComp() {
-    const { getAccessTokenSilently  } = useAuth0();
     const [ruleSet, setRuleSet] = useState(1);
     const [compName, setCompName] = useState('');
     const [compCode, setCompCode] = useState('');
@@ -32,7 +30,6 @@ export default function NewComp() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const token = await getAccessTokenSilently()
         const newComp = {
             name: compName,
             startdate: startDate.format("YYYY-MM-DD"),
@@ -41,15 +38,13 @@ export default function NewComp() {
             code: compCode,
             users: []
         }
-        console.log(newComp)
         try {
-            await createCompetition(token, newComp);
+            const data = await createCompetition(newComp);
+            window.location.replace(`/competition/${data.id}`)
         } catch (err){
             setFormErrors(err.response.data);
-            console.log(formErrors)
             return
         }
-        window.location.replace('/')
     }
 
     return (

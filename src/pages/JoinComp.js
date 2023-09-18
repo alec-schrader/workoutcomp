@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
 import { Grid, Container, Box, TextField, Button, Paper, Typography, Divider } from "@mui/material";
-import { useAuth0 } from "@auth0/auth0-react";
 import { addUsertoCompetition } from '../services/CompetitionService'
 
 
 
 export default function JoinComp() {
-    const { getAccessTokenSilently } = useAuth0();
     const [compCode, setCompCode] = useState('');
     const [codeMessage, setCodeMessage] = useState('');
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const token = await getAccessTokenSilently()
         try {
-            await addUsertoCompetition(token, compCode);
+            await addUsertoCompetition(compCode);
         } catch (err){
-            console.log(err);
             setCodeMessage('Invalid Code.')
             return
         }

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import PageLoader from "./components/PageLoader";
@@ -10,6 +11,8 @@ import NoPage from "./pages/NoPage";
 import Competition from './pages/Competition';
 import NewComp from './pages/NewComp';
 import JoinComp from './pages/JoinComp';
+
+import { addAccessTokenInterceptor } from './services/HttpClient';
 
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -44,7 +47,11 @@ const theme = createTheme({
 });
 
 export default function App() {
-  const {isLoading, isAuthenticated } = useAuth0();
+  const {isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    addAccessTokenInterceptor(getAccessTokenSilently);
+  }, [getAccessTokenSilently]);
 
   let indexRoute = <Route index element={<Welcome />} />;
   if(isLoading) indexRoute = <Route index element={<PageLoader />} />;
