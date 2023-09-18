@@ -19,6 +19,7 @@ export default function NewComp() {
     const [compCode, setCompCode] = useState('');
     const [startDate, setStartDate] = useState(dayjs());
     const [endDate, setEndDate] = useState(dayjs().add(30, 'day'));
+    const [formErrors, setFormErrors] = useState({})
 
     const emailList = () => {
         let emailArr = [];
@@ -61,7 +62,14 @@ export default function NewComp() {
             users: []
         }
         console.log(newComp)
-        createCompetition(token, newComp)
+        try {
+            await createCompetition(token, newComp);
+        } catch (err){
+            setFormErrors(err.response.data);
+            console.log(formErrors)
+            return
+        }
+        window.location.replace('/')
     }
 
     return (
@@ -121,10 +129,12 @@ export default function NewComp() {
                                 <Grid item xs={12} sm={3} mb={2}>
                                     <TextField
                                         required
+                                        error={formErrors.code ? true : false}
                                         id="compcode"
                                         label="Competition Code"
                                         name='compCode'
                                         value={compCode}
+                                        helperText={formErrors.code ? formErrors.code[0] : ''}
                                         onChange={(event) => {
                                             setCompCode(event.target.value);
                                         }}

@@ -7,7 +7,6 @@ import { Typography } from "@mui/material";
  * Round to nearest whole number to deal with DST.
  */
 function datediff(first, second) {    
-  console.log(first, second)
   return Math.round((second - first) / (1000 * 60 * 60 * 24));
 }
 
@@ -20,7 +19,6 @@ const CompetitionDatePercentage = (dates) => {
   const daysPassed = datediff(new Date(dates.startdate), new Date())
   const daysleft = totalDays - daysPassed;
   const percentPassed = (daysPassed/totalDays) * 100;
-  console.log(daysPassed)
   return (
     <div>
         <svg viewBox="0 0 400 400" width="100%" height="100%">

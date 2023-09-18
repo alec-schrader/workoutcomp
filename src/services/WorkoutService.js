@@ -10,14 +10,10 @@ const getWorkout = async (accessToken, workoutId) => {
           headers: { Authorization: `Bearer ${accessToken}` }
       };
 
-      try{
-        const response = await axios.get(url, config);
-        return response.data;
-      } catch (error) {
-        console.log(error);
-      }
+      const response = await axios.get(url, config);
+      return response.data;
   } catch (e) {
-      console.log(e.message);
+      console.log(e);
   }
 }
 
@@ -29,14 +25,10 @@ const updateWorkout = async (accessToken, workoutId, workout) => {
           headers: { Authorization: `Bearer ${accessToken}` }
       };
 
-      try{
-        const response = await axios.put(url, workout, config);
-        return response.data;
-      } catch (error) {
-        console.log(error);
-      }
+      const response = await axios.put(url, workout, config);
+      return response.data;
   } catch (e) {
-      console.log(e.message);
+      console.log(e);
   }
 }
 
@@ -48,11 +40,10 @@ const createWorkout = async (accessToken, workout) => {
           headers: { Authorization: `Bearer ${accessToken}` }
       };
 
-      axios.post(newCompURL, workout, config).then((result) => {
-        return result
-      }).catch(console.log);
+      const response = await axios.post(newCompURL, workout, config);
+      return response.data;
   } catch (e) {
-      console.log(e.message);
+      console.log(e);
   }
 }
 

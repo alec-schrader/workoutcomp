@@ -14,7 +14,6 @@ export default function Home() {
         async function getApiUser() {
           const token = await getAccessTokenSilently();
           const resp =  await getUserData(token, user.sub);
-          console.log(resp)
           setApiUser(resp);
         };
     
@@ -46,7 +45,6 @@ export default function Home() {
                 <Box pt={2} pb={2}>
                     <Grid container>
                         <Grid item xs={12}>
-                            <p>{JSON.stringify(apiUser)}</p>
                             <Typography variant='h2'>Welcome {user ? user.nickname : "Primal"}!!!</Typography>
                             <Divider></Divider>
                         </Grid>
