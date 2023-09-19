@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Container, Divider, Grid, Typography, Box, Paper, Button } from "@mui/material";
 import CompetitionCard from '../components/CompetitionCard';
-import WorkoutCard from '../components/WorkoutCard';
+import { WorkoutCard } from '../components/WorkoutCard';
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUser } from '../services/UserService'
 

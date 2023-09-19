@@ -32,7 +32,7 @@ const CompetitionDatePercentage = (dates) => {
             labels={() => null}
             style={{
               data: { fill: ({ datum }) => {
-                const color = datum.y > 30 ? "green" : "red";
+                const color = datum.y < 60 ? "green" : "red";
                 return datum.x === 1 ? color : "transparent";
               }
               }

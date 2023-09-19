@@ -22,6 +22,16 @@ const getCompetitionByCode = async (compCode) => {
   return resp.data
 }
 
+const getCompetitionWorkouts = async (compId) => {
+  const config = {
+    url: `${apiUrl}/competitions/${compId}/workouts/`,
+    method: "GET",
+  };
+
+  const resp = await callApi(config);
+  return resp.data
+}
+
 const createCompetition = async (competition) => {
   const config = {
     url: `${apiUrl}/competitions/`,
@@ -46,4 +56,4 @@ const addUsertoCompetition = async (competitionCode) => {
   return resp.data
 }
 
-export { getCompetition, createCompetition, addUsertoCompetition }
+export { getCompetition, createCompetition, addUsertoCompetition, getCompetitionWorkouts }
