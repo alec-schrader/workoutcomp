@@ -1,4 +1,4 @@
-import {callApi} from './ApiService';
+import { callApi } from "./ApiService";
 
 const apiUrl = process.env.REACT_APP_API_SERVER_URL;
 
@@ -9,8 +9,8 @@ const getCompetition = async (competitionID) => {
   };
 
   const resp = await callApi(config);
-  return resp.data
-}
+  return resp.data;
+};
 
 const getCompetitionByCode = async (compCode) => {
   const config = {
@@ -19,8 +19,8 @@ const getCompetitionByCode = async (compCode) => {
   };
 
   const resp = await callApi(config);
-  return resp.data
-}
+  return resp.data;
+};
 
 const getCompetitionWorkouts = async (compId) => {
   const config = {
@@ -29,8 +29,8 @@ const getCompetitionWorkouts = async (compId) => {
   };
 
   const resp = await callApi(config);
-  return resp.data
-}
+  return resp.data;
+};
 
 const getCompetitionsForUser = async (userid) => {
   const config = {
@@ -39,20 +39,19 @@ const getCompetitionsForUser = async (userid) => {
   };
 
   const resp = await callApi(config);
-  return resp.data
-}
-
+  return resp.data;
+};
 
 const createCompetition = async (competition) => {
   const config = {
     url: `${apiUrl}/competitions/`,
     method: "POST",
-    data: competition
+    data: competition,
   };
 
   const resp = await callApi(config);
-  return resp.data
-}
+  return resp.data;
+};
 
 const addUsertoCompetition = async (competitionCode) => {
   //get comp id
@@ -64,7 +63,13 @@ const addUsertoCompetition = async (competitionCode) => {
   };
 
   const resp = await callApi(config);
-  return resp.data
-}
+  return resp.data;
+};
 
-export { getCompetition, createCompetition, addUsertoCompetition, getCompetitionWorkouts, getCompetitionsForUser }
+export {
+  getCompetition,
+  createCompetition,
+  addUsertoCompetition,
+  getCompetitionWorkouts,
+  getCompetitionsForUser,
+};
