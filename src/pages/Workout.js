@@ -29,6 +29,7 @@ export default function Workout() {
   const [durationHours, setDurationHours] = useState(0);
   const [durationMinutes, setDurationMinutes] = useState(0);
   const [intensity, setIntensity] = useState(0);
+  const [note, setNote] = useState('');
 
   useEffect(() => {
     async function getData() {
@@ -38,6 +39,7 @@ export default function Workout() {
       setDurationHours(Math.floor(resp.duration / 60));
       setDurationMinutes(resp.duration % 60);
       setIntensity(resp.intensity);
+      setNote(resp.note);
     }
 
     if (workoutId) getData();
@@ -61,6 +63,7 @@ export default function Workout() {
       date: date.format("YYYY-MM-DD"),
       duration: parseInt(durationHours) * 60 + parseInt(durationMinutes),
       intensity: intensity,
+      note: note,
     };
     if (workoutId) {
       newWorkout.id = workoutId;
@@ -145,7 +148,7 @@ export default function Workout() {
                 <Grid item xs={12} mt={2} mb={2}>
                   <Divider></Divider>
                 </Grid>
-                <Grid item xs={12} sm={6} mb={2}>
+                <Grid item xs={12} sm={4} mb={2}>
                   <DatePicker
                     required
                     label="Date"
@@ -156,7 +159,7 @@ export default function Workout() {
                     name="date"
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} mb={2}>
+                <Grid item xs={12} sm={4} mb={2}>
                   <TextField
                     required
                     id="intensity"
@@ -166,6 +169,19 @@ export default function Workout() {
                     type="number"
                     onChange={(event) => {
                       setIntensity(event.target.value);
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4} mb={2}>
+                  <TextField
+                    required
+                    id="note"
+                    label="Note"
+                    name="note"
+                    value={note}
+                    inputProps={{ maxLength: 50 }}
+                    onChange={(event) => {
+                      setNote(event.target.value);
                     }}
                   />
                 </Grid>

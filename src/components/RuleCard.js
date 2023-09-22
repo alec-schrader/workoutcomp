@@ -7,12 +7,12 @@ const RuleCard = (props) => {
       <CardContent>
         <Grid container>
           <Grid item xs={12}>
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography gutterBottom variant="h5">
               {props.name}
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography gutterBottom variant="body1" component="div">
+            <Typography gutterBottom variant="body1">
               {props.description}
             </Typography>
           </Grid>

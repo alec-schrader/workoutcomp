@@ -14,18 +14,24 @@ import { WorkoutCard } from "../components/WorkoutCard";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUser } from "../services/UserService";
 import { getCompetitionsForUser } from "../services/CompetitionService";
+import { getWorkoutsForUser } from "../services/WorkoutService";
 
 export default function Home() {
   const { user } = useAuth0();
   const [apiUser, setApiUser] = useState({ profile: {} });
   const [competitions, setCompetitions] = useState([]);
+  const [workouts, setWorkouts] = useState([]);
 
   useEffect(() => {
     async function getApiUser() {
       const resp = await getUser(user.sub);
       setApiUser(resp);
+
       const compResp = await getCompetitionsForUser(resp.id);
       setCompetitions(compResp);
+
+      const workResp = await getWorkoutsForUser(resp.id);
+      setWorkouts(workResp)
     }
 
     if (!apiUser.id) {
@@ -41,8 +47,8 @@ export default function Home() {
   };
 
   const workoutList = () => {
-    if (apiUser.workouts == null) return <div></div>;
-    return apiUser.workouts.map((workout) => (
+    if (workouts == null) return <div></div>;
+    return workouts.map((workout) => (
       <WorkoutCard key={workout.id} workout={workout} />
     ));
   };
@@ -65,7 +71,7 @@ export default function Home() {
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item md={6} xs={12} mb={1}>
+            <Grid item xs={12} mb={1}>
               <Typography variant="h4" gutterBottom>
                 Competitions
               </Typography>
@@ -77,7 +83,10 @@ export default function Home() {
                 Join Competition
               </Button>
             </Grid>
-            <Grid item md={6} xs={12} mb={1}>
+            <Grid item xs={12}>
+              {competitionList()}
+            </Grid>
+            <Grid item xs={12} mb={1}>
               <Typography variant="h4" gutterBottom>
                 Workouts
               </Typography>
@@ -85,10 +94,7 @@ export default function Home() {
                 Add Workout
               </Button>
             </Grid>
-            <Grid item md={6} xs={12}>
-              {competitionList()}
-            </Grid>
-            <Grid item md={6} xs={12}>
+            <Grid item xs={12}>
               {workoutList()}
             </Grid>
           </Grid>

@@ -12,6 +12,17 @@ const getWorkout = async (workoutId) => {
   return resp.data;
 };
 
+const getWorkoutsForUser = async (userid) => {
+  const config = {
+    url: `${apiUrl}/workouts/userid/${userid}/`,
+    method: "GET",
+  };
+
+  const resp = await callApi(config);
+  return resp.data;
+};
+
+
 const updateWorkout = async (workoutId, workout) => {
   const config = {
     url: `${apiUrl}/workouts/${workoutId}/`,
@@ -34,4 +45,4 @@ const createWorkout = async (workout) => {
   return resp.data;
 };
 
-export { getWorkout, updateWorkout, createWorkout };
+export { getWorkout, updateWorkout, createWorkout, getWorkoutsForUser };

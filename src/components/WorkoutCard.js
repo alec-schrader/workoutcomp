@@ -9,6 +9,8 @@ import {
   Divider,
 } from "@mui/material";
 import categoryChoices from "../data/workoutCategories";
+import dayjs from "dayjs";
+import { calcPoints } from "../services/CalcPoints";
 
 const WorkoutCard = (parms) => {
   const workout = parms.workout;
@@ -19,8 +21,8 @@ const WorkoutCard = (parms) => {
       <CardContent>
         <Grid container>
           <Grid item xs={12}>
-            <Typography gutterBottom variant="h5" component="div">
-              {workout.date}
+            <Typography gutterBottom variant="h5" >
+              {dayjs(workout.date).format('MM/DD/YYYY')}
             </Typography>
           </Grid>
           <Grid item xs={12}>
@@ -42,18 +44,23 @@ const WorkoutCard = (parms) => {
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <Typography variant="body1" component="div">
+            <Typography variant="body1" >
               {category}
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <Typography variant="body1" component="div">
+            <Typography variant="body1" >
               {workout.duration} minutes
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <Typography variant="body1" component="div">
+            <Typography variant="body1" >
               {workout.intensity}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="bold" component="b" >
+              Note: {workout.note}
             </Typography>
           </Grid>
         </Grid>
@@ -74,14 +81,15 @@ const WorkoutCard = (parms) => {
 const WorkoutCardComp = (parms) => {
   const workout = parms.workout;
   const category = categoryChoices[workout.category - 1].name;
+  const user = parms.user
 
   return (
     <Card>
       <CardContent>
         <Grid container>
           <Grid item xs={12}>
-            <Typography gutterBottom variant="h5" component="div">
-              {workout.date}
+            <Typography gutterBottom variant="h5" >
+              {user ? user.profile.username : 'Primal'} - {dayjs(workout.date).format('MM/DD/YYYY')}
             </Typography>
           </Grid>
           <Grid item xs={12}>
@@ -103,20 +111,32 @@ const WorkoutCardComp = (parms) => {
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <Typography variant="body1" component="div">
+            <Typography variant="body1" >
               {category}
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <Typography variant="body1" component="div">
+            <Typography variant="body1" >
               {workout.duration} minutes
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <Typography variant="body1" component="div">
+            <Typography variant="body1" >
               {workout.intensity}
             </Typography>
           </Grid>
+          <Grid item xs={3}>
+            <Typography variant="bold" component="b" >
+              Points: {calcPoints(workout)}
+            </Typography>
+          </Grid>
+          {workout.note ? 
+            <Grid item xs={9}>
+              <Typography variant="bold" component="b" >
+                Note: {workout.note}
+              </Typography>
+            </Grid> : <div></div>
+          } 
         </Grid>
       </CardContent>
     </Card>
