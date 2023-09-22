@@ -5,16 +5,20 @@ import CompetitionCard from '../components/CompetitionCard';
 import { WorkoutCard } from '../components/WorkoutCard';
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUser } from '../services/UserService'
+import { getCompetitionsForUser } from '../services/CompetitionService'
 import { json } from 'react-router-dom';
 
 export default function Home() {
     const { user } = useAuth0();
     const [ apiUser, setApiUser ] = useState({profile:{}});
+    const [ competitions, setCompetitions ] = useState([]);
 
     useEffect(() => {
         async function getApiUser() {
           const resp =  await getUser(user.sub);
           setApiUser(resp);
+          const compResp = await getCompetitionsForUser(resp.id);
+          setCompetitions(compResp);
         };
     
         if (!apiUser.id) {
@@ -23,8 +27,8 @@ export default function Home() {
     }, [apiUser, user]);
 
     const competitionList = () => {
-        if(apiUser.competitions == null) return <div></div>
-        return apiUser.competitions.map((competition) =>  
+        if(competitions == null) return <div></div>
+        return competitions.map((competition) =>  
             <CompetitionCard key={competition.id} competition={competition} />
         );
     }
@@ -47,7 +51,6 @@ export default function Home() {
                         <Grid item xs={12}>
                             <Typography variant='h2'>Welcome {apiUser ? apiUser.profile.username : "Primal"}!!!</Typography>
                             <Divider></Divider>
-                            {JSON.stringify(user)}
                         </Grid>
                     </Grid>                    
                     <Grid container spacing={2}>
