@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import * as React from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import PageLoader from "./components/PageLoader";
@@ -8,54 +8,63 @@ import Home from "./pages/Home";
 import Welcome from "./pages/Welcome";
 import Workout from "./pages/Workout";
 import NoPage from "./pages/NoPage";
-import Competition from './pages/Competition';
-import NewComp from './pages/NewComp';
-import JoinComp from './pages/JoinComp';
+import Competition from "./pages/Competition";
+import NewComp from "./pages/NewComp";
+import JoinComp from "./pages/JoinComp";
+import Profile from "./pages/Profile";
 
-import { addAccessTokenInterceptor } from './services/HttpClient';
+import { addAccessTokenInterceptor } from "./services/HttpClient";
 
-import CssBaseline from '@mui/material/CssBaseline';
+import CssBaseline from "@mui/material/CssBaseline";
 
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import './App.css';
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import "./App.css";
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: "light",
     primary: {
-      main: '#fcb700',
+      main: "#fcb700",
     },
     secondary: {
-      main: '#6f5c07',
+      main: "#6f5c07",
     },
     background: {
-      default: '#838282',
-      paper: '#ffffff',
+      default: "#838282",
+      paper: "#ffffff",
     },
     text: {
-      secondary: '#00000',
+      secondary: "#00000",
     },
   },
   spacing: 8,
 });
 
 export default function App() {
-  const {isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const {
+    isLoading,
+    isAuthenticated,
+    getAccessTokenSilently,
+    getAccessTokenWithPopup,
+  } = useAuth0();
 
   useEffect(() => {
-    addAccessTokenInterceptor(getAccessTokenSilently);
+    addAccessTokenInterceptor(getAccessTokenSilently, getAccessTokenWithPopup);
   }, [getAccessTokenSilently]);
 
   let indexRoute = <Route index element={<Welcome />} />;
-  if(isLoading) indexRoute = <Route index element={<PageLoader />} />;
-  if(isAuthenticated) indexRoute = <Route index element={<AuthenticationGuard component={Home} />} />;
+  if (isLoading) indexRoute = <Route index element={<PageLoader />} />;
+  if (isAuthenticated)
+    indexRoute = (
+      <Route index element={<AuthenticationGuard component={Home} />} />
+    );
 
   return (
     <React.Fragment>
@@ -65,10 +74,26 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               {indexRoute}
-              <Route path="new-comp" element={<AuthenticationGuard component={NewComp} />} />
-              <Route path="join-comp" element={<AuthenticationGuard component={JoinComp} />} />
-              <Route path="competition/:competitionId?" element={<AuthenticationGuard component={Competition} />} />
-              <Route path="workout/:workoutId?" element={<AuthenticationGuard component={Workout} />} />
+              <Route
+                path="new-comp"
+                element={<AuthenticationGuard component={NewComp} />}
+              />
+              <Route
+                path="join-comp"
+                element={<AuthenticationGuard component={JoinComp} />}
+              />
+              <Route
+                path="competition/:competitionId?"
+                element={<AuthenticationGuard component={Competition} />}
+              />
+              <Route
+                path="workout/:workoutId?"
+                element={<AuthenticationGuard component={Workout} />}
+              />
+              <Route
+                path="profile"
+                element={<AuthenticationGuard component={Profile} />}
+              />
               <Route path="*" element={<NoPage />} />
             </Route>
           </Routes>

@@ -1,37 +1,48 @@
 import React from "react";
-import { Card, CardActionArea, CardContent, CardActions, Typography, Button, Grid } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Typography,
+  Button,
+  Grid,
+} from "@mui/material";
 import LeaderboardChart from "./LeaderboardChart";
 import CompetitionDatePercentage from "./CompetitionDatePercentage";
 
 const CompetitionCard = (props) => {
   const competition = props.competition;
-  console.log(competition)
   return (
-  <Card>
-    <CardActionArea>
-        <CardContent>                        
-          <Grid container>
-            <Grid item xs={12}>
-              <Typography gutterBottom variant="h5" component="div">
-                {competition.name ? competition.name : "Competition"}
-              </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <LeaderboardChart></LeaderboardChart>
-            </Grid>
-            <Grid item xs={4}>
-              <CompetitionDatePercentage startdate={competition.startdate} enddate={competition.enddate}></CompetitionDatePercentage>
-            </Grid>
+    <Card>
+      <CardContent>
+        <Grid container>
+          <Grid item xs={12}>
+            <Typography gutterBottom variant="h5">
+              {competition.name ? competition.name : "Competition"}
+            </Typography>
           </Grid>
-        </CardContent>
-      </CardActionArea>
+          <Grid item xs={8}>
+            <LeaderboardChart></LeaderboardChart>
+          </Grid>
+          <Grid item xs={4}>
+            <CompetitionDatePercentage
+              startdate={competition.startdate}
+              enddate={competition.enddate}
+            ></CompetitionDatePercentage>
+          </Grid>
+        </Grid>
+      </CardContent>
       <CardActions>
-        <Button size="small" color="primary" href={`/competition/${competition.id}`}>
+        <Button
+          size="small"
+          color="primary"
+          href={`/competition/${competition.id}`}
+        >
           View Detail
         </Button>
       </CardActions>
-  </Card>
-  )
+    </Card>
+  );
 };
 
 export default CompetitionCard;
