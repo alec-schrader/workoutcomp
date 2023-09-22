@@ -5,10 +5,11 @@ import CompetitionCard from '../components/CompetitionCard';
 import { WorkoutCard } from '../components/WorkoutCard';
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUser } from '../services/UserService'
+import { json } from 'react-router-dom';
 
 export default function Home() {
     const { user } = useAuth0();
-    const [ apiUser, setApiUser ] = useState({});
+    const [ apiUser, setApiUser ] = useState({profile:{}});
 
     useEffect(() => {
         async function getApiUser() {
@@ -44,8 +45,9 @@ export default function Home() {
                 <Box pt={2} pb={2}>
                     <Grid container>
                         <Grid item xs={12}>
-                            <Typography variant='h2'>Welcome {user ? user.nickname : "Primal"}!!!</Typography>
+                            <Typography variant='h2'>Welcome {apiUser ? apiUser.profile.username : "Primal"}!!!</Typography>
                             <Divider></Divider>
+                            {JSON.stringify(user)}
                         </Grid>
                     </Grid>                    
                     <Grid container spacing={2}>

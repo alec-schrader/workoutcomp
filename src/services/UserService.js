@@ -15,4 +15,16 @@ const getUser = async (userid) => {
   return resp.data
 }
 
-export { getUser }
+const updateUser = async (userid, user) => {
+  const config = {
+      url: `${apiUrl}/users/${userid}/`,
+      method: "PUT",
+      data: user
+  };
+
+  const resp = await callApi(config);
+  return resp.data
+}
+
+
+export { getUser, updateUser }

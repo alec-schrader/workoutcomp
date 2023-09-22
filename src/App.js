@@ -11,6 +11,7 @@ import NoPage from "./pages/NoPage";
 import Competition from './pages/Competition';
 import NewComp from './pages/NewComp';
 import JoinComp from './pages/JoinComp';
+import Profile from './pages/Profile';
 
 import { addAccessTokenInterceptor } from './services/HttpClient';
 
@@ -47,10 +48,10 @@ const theme = createTheme({
 });
 
 export default function App() {
-  const {isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const {isLoading, isAuthenticated, getAccessTokenSilently, getAccessTokenWithPopup } = useAuth0();
 
   useEffect(() => {
-    addAccessTokenInterceptor(getAccessTokenSilently);
+    addAccessTokenInterceptor(getAccessTokenSilently, getAccessTokenWithPopup);
   }, [getAccessTokenSilently]);
 
   let indexRoute = <Route index element={<Welcome />} />;
@@ -69,6 +70,7 @@ export default function App() {
               <Route path="join-comp" element={<AuthenticationGuard component={JoinComp} />} />
               <Route path="competition/:competitionId?" element={<AuthenticationGuard component={Competition} />} />
               <Route path="workout/:workoutId?" element={<AuthenticationGuard component={Workout} />} />
+              <Route path="profile" element={<AuthenticationGuard component={Profile} />} />
               <Route path="*" element={<NoPage />} />
             </Route>
           </Routes>
