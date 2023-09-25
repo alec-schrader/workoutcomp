@@ -42,7 +42,9 @@ export default function Home() {
   const competitionList = () => {
     if (competitions == null) return <div></div>;
     return competitions.map((competition) => (
-      <CompetitionCard key={competition.id} competition={competition} />
+      <Grid item xs={12} sm={4}>
+        <CompetitionCard key={competition.id} competition={competition} />
+      </Grid>
     ));
   };
 
@@ -75,16 +77,26 @@ export default function Home() {
               <Typography variant="h4" gutterBottom>
                 Competitions
               </Typography>
-              <Button variant="contained" href="new-comp">
-                Create Competition
-              </Button>
-              - or -
-              <Button variant="contained" href="join-comp">
-                Join Competition
-              </Button>
+              <Grid container alignItems="center" justifyContent="center">
+                <Grid item xs={12} sm={3}>
+                  <Button variant="contained" href="new-comp">
+                    Create Competition
+                  </Button>
+                </Grid>
+                <Grid item xs={12} sm={1}>
+                  - or -
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                  <Button variant="contained" href="join-comp">
+                    Join Competition
+                  </Button>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item xs={12}>
-              {competitionList()}
+              <Grid container>
+                {competitionList()}
+              </Grid>
             </Grid>
             <Grid item xs={12} mb={1}>
               <Typography variant="h4" gutterBottom>

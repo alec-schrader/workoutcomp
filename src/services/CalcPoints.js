@@ -1,24 +1,38 @@
 function calcPoints(workout) {
     let points = 0;
+    const duration = workout.duration;
+    const intensity = workout.intensity;
     switch(workout.category){
         case 1://Strength
-            points = workout.duration* Math.pow(workout.intensity, 1.8)
+            points = (duration/1000) * Math.pow(intensity, 1.8)
             break;
         case 2://Cardio
-            points = workout.duration * Math.pow((workout.intensity-69), 2)
+            points = (duration/1000) * Math.pow((intensity-69), 2)
             break;
         case 3://Wellness
-            points = workout.duration
+            points = duration
+            break;
+        default:
             break;
     }
 
-    return points;
+    return Math.floor(points);
 }
 
 function getUsername(userid, users){
     for(const user of users) {
-        if(user.username===userid) return user.profile.username;
+        if(user.username===userid) return user.profile.username ? user.profile.username : 'Primal';
     }
+}
+
+function getRowRankings(rows, category) {
+    const pointsPerCategory = rows.length - 1;
+    rows = rows.sort((a,b) => b[category] - a[category]);
+    for(let i = 0; i < rows.length; i++){
+        rows[i][category + 'Rank'] = pointsPerCategory - i;
+        rows[i][category + 'Disp'] = `${rows[i][category]} (${pointsPerCategory - i})`
+    }
+    return rows
 }
 
 function getPointsBreakdown(workouts, users){
@@ -39,8 +53,16 @@ function getPointsBreakdown(workouts, users){
             row = { 
                 username: getUsername(workout.owner, users),
                 strength: 0,
+                strengthRank:0,
+                strengthDisp:'',
                 cardio: 0,
+                cardioRank:0,
+                cardioDisp:'',
                 wellness: 0,
+                wellnessRank: 0,
+                wellnessDisp: '',
+                totalPoints: 0,
+                rank: 0,
                 owner: workout.owner,
                 id: rowcnt
             }
@@ -58,9 +80,24 @@ function getPointsBreakdown(workouts, users){
             case 3://Wellness
                 row.wellness += points
                 break;
+            default:
+                break;
         }    
     }
-    console.log(pointBreakdown)
+    pointBreakdown = getRowRankings(pointBreakdown, 'cardio');
+    pointBreakdown = getRowRankings(pointBreakdown, 'strength');
+    pointBreakdown = getRowRankings(pointBreakdown, 'wellness');
+
+    for(const row of pointBreakdown) {
+        row.totalPoints = row.cardioRank + row.strengthRank + row.wellnessRank
+    }
+
+    pointBreakdown = pointBreakdown.sort((a,b) => b.totalPoints - a.totalPoints);
+
+    for(let i = 0; i < pointBreakdown.length; i++){
+        pointBreakdown[i].rank = i + 1;
+    }
+
     return pointBreakdown;
 }
 

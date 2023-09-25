@@ -89,7 +89,7 @@ const WorkoutCardComp = (parms) => {
         <Grid container>
           <Grid item xs={12}>
             <Typography gutterBottom variant="h5" >
-              {user ? user.profile.username : 'Primal'} - {dayjs(workout.date).format('MM/DD/YYYY')}
+              {user && user.profile.username ? user.profile.username : 'Primal'} - {dayjs(workout.date).format('MM/DD/YYYY')}
             </Typography>
           </Grid>
           <Grid item xs={12}>
