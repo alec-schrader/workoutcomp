@@ -7,7 +7,6 @@ import {
   Button,
   Grid,
 } from "@mui/material";
-import LeaderboardChart from "./LeaderboardChart";
 import CompetitionDatePercentage from "./CompetitionDatePercentage";
 
 const CompetitionCard = (props) => {
@@ -21,10 +20,7 @@ const CompetitionCard = (props) => {
               {competition.name ? competition.name : "Competition"}
             </Typography>
           </Grid>
-          <Grid item xs={8}>
-            <LeaderboardChart></LeaderboardChart>
-          </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12}>
             <CompetitionDatePercentage
               startdate={competition.startdate}
               enddate={competition.enddate}

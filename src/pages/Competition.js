@@ -27,6 +27,7 @@ export default function Competition() {
   const [comp, setComp] = useState({});
   const [workouts, setWorkouts] = useState([]);
   const [users, setUsers] = useState([]);
+  const [points, setPoints] = useState([]);
 
   function getUser(id){
     for(const user of users){
@@ -47,6 +48,9 @@ export default function Competition() {
 
       const userResp = await getCompetitionsUsers(competitionId);
       setUsers(userResp);
+    
+      const points = getPointsBreakdown(workResp, userResp)
+      setPoints(points);
     }
 
     if (competitionId) getData();
@@ -68,11 +72,11 @@ export default function Competition() {
 
   const columns = [
     { field: 'username', headerName: 'Name', width: 150 },
-    { field: 'points', headerName: 'Total Points', width: 150 },
-    { field: 'Rank', headerName: 'Rank', width: 100 },
-    { field: 'cardio', headerName: 'Cardio (Points)', width: 150 },
-    { field: 'strength', headerName: 'Strength (Points)', width: 150 },
-    { field: 'wellness', headerName: 'Wellness (Points)', width: 150 },
+    { field: 'rank', headerName: 'Rank', width: 100 },
+    { field: 'totalPoints', headerName: 'Total Points', width: 150 },
+    { field: 'cardioDisp', headerName: 'Cardio (Points)', width: 150 },
+    { field: 'strengthDisp', headerName: 'Strength (Points)', width: 150 },
+    { field: 'wellnessDisp', headerName: 'Wellness (Points)', width: 150 },
   ];
 
   return (
@@ -87,19 +91,19 @@ export default function Competition() {
               <Divider></Divider>
             </Grid>
             <Grid item sm={8} xs={12}>
-              <LeaderboardChart></LeaderboardChart>
+              <LeaderboardChart data={points}></LeaderboardChart>
             </Grid>
             <Grid item xs={12} sm={4}>
               <Typography variant="h4">Workout Feed</Typography>
               <Divider></Divider>
-              <Box maxHeight={400} overflow={'scroll'}>
+              <Box maxHeight={600} overflow={'scroll'}>
                 {workoutList()}
               </Box>
             </Grid>
             <Grid item xs={12}>
                 <Typography variant="h4">Points Breakdown</Typography>
                 <Divider></Divider>
-                <DataGrid autoHeight rows={getPointsBreakdown(workouts, users)} columns={columns} />
+                <DataGrid autoHeight rows={points} columns={columns} />
             </Grid>
             <Grid item sm={4} xs={12}>
                 <Typography variant="h4">Users</Typography>
