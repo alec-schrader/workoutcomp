@@ -11,6 +11,10 @@ const categoryChoices = [
     value: 3,
     name: "Wellness",
   },
+  {
+    value: 4,
+    name: "USP",
+  },
 ];
 
 export default categoryChoices;

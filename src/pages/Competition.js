@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import dayjs from "dayjs";
 import {
   Grid,
   Container,
@@ -12,15 +13,15 @@ import { DataGrid } from '@mui/x-data-grid';
 import {
   getCompetition,
   getCompetitionWorkouts,
-  getCompetitionsUsers
+  getCompetitionsUsers,
 } from "../services/CompetitionService";
-import { getPointsBreakdown } from "../services/CalcPoints"
+import { workoutsColumns, workoutsDisp, workoutActionColumn, workoutInitialState } from "../data/dataGridColumns"
+import { getPointsBreakdown, calcPoints, calcAllPoints } from "../services/CalcPoints"
 import { WorkoutCardComp } from "../components/WorkoutCard";
 import { UserCard } from "../components/UserCard";
 import LeaderboardChart from "../components/LeaderboardChart";
 import CompetitionDatePercentage from "../components/CompetitionDatePercentage";
-
-
+import categoryChoices from "../data/workoutCategories";
 
 export default function Competition() {
   const { competitionId } = useParams();
@@ -29,22 +30,13 @@ export default function Competition() {
   const [users, setUsers] = useState([]);
   const [points, setPoints] = useState([]);
 
-  function getUser(id){
-    for(const user of users){
-        if(user.username === id){
-            return user
-        }
-    }
-  }
-
-
   useEffect(() => {
     async function getData() {
       const compResp = await getCompetition(competitionId);
       setComp(compResp);
 
       const workResp = await getCompetitionWorkouts(competitionId);
-      setWorkouts(workResp);
+      setWorkouts(calcAllPoints(workResp));
 
       const userResp = await getCompetitionsUsers(competitionId);
       setUsers(userResp);
@@ -56,27 +48,23 @@ export default function Competition() {
     if (competitionId) getData();
   }, [competitionId]);
 
-  const workoutList = () => {
-    return workouts.map((workout) => (
-      <WorkoutCardComp key={workout.id} workout={workout} user={getUser(workout.owner)} />
-    ));
-  };
-
-
   const userList = () => {
     return users.map((user) => (
-      <UserCard key={user.id} user={user} />
+        <Grid item xs={4} key={user.id}>
+            <UserCard user={user} />
+        </Grid>
     ));
   };
 
 
-  const columns = [
+  const pointsColumns = [
     { field: 'username', headerName: 'Name', width: 150 },
     { field: 'rank', headerName: 'Rank', width: 100 },
     { field: 'totalPoints', headerName: 'Total Points', width: 150 },
     { field: 'cardioDisp', headerName: 'Cardio (Points)', width: 150 },
     { field: 'strengthDisp', headerName: 'Strength (Points)', width: 150 },
     { field: 'wellnessDisp', headerName: 'Wellness (Points)', width: 150 },
+    { field: 'usp', headerName: 'USP', width: 150 },
   ];
 
   return (
@@ -93,22 +81,32 @@ export default function Competition() {
             <Grid item sm={8} xs={12}>
               <LeaderboardChart data={points}></LeaderboardChart>
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <Typography variant="h4">Workout Feed</Typography>
-              <Divider></Divider>
-              <Box maxHeight={600} overflow={'scroll'}>
-                {workoutList()}
-              </Box>
-            </Grid>
             <Grid item xs={12}>
                 <Typography variant="h4">Points Breakdown</Typography>
                 <Divider></Divider>
-                <DataGrid autoHeight rows={points} columns={columns} />
+                <DataGrid autoHeight rows={points} columns={pointsColumns}
+                    initialState={{
+                        pagination: { paginationModel: { pageSize: 5 } },
+                    }}
+                    pageSizeOptions={[5, 10, 25]} />
             </Grid>
-            <Grid item sm={4} xs={12}>
+            <Grid item xs={12}>
+              <Typography variant="h4">Workout Feed</Typography>
+              <Divider></Divider>
+              <DataGrid autoHeight rows={workoutsDisp(workouts, users)} columns={workoutsColumns} 
+                    initialState={workoutInitialState}
+                    pageSizeOptions={[5, 10, 25]} />
+            
+              {/* <Box maxHeight={600} overflow={'scroll'}>
+                {workoutList()}
+              </Box> */}
+            </Grid>
+            <Grid item xs={12}>
                 <Typography variant="h4">Users</Typography>
                 <Divider></Divider>
-                {userList()}
+                <Grid container>
+                    {userList()}
+                </Grid>
             </Grid>
           </Grid>
         </Box>

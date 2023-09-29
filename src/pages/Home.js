@@ -9,6 +9,9 @@ import {
   Paper,
   Button,
 } from "@mui/material";
+import { DataGrid } from '@mui/x-data-grid';
+import { calcAllPoints } from "../services/CalcPoints"
+import { workoutsColumns, workoutsDisp, workoutActionColumn, workoutInitialState } from "../data/dataGridColumns"
 import CompetitionCard from "../components/CompetitionCard";
 import { WorkoutCard } from "../components/WorkoutCard";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -22,6 +25,9 @@ export default function Home() {
   const [competitions, setCompetitions] = useState([]);
   const [workouts, setWorkouts] = useState([]);
 
+  const workoutGridCols = workoutsColumns
+  workoutGridCols.push(workoutActionColumn);
+
   useEffect(() => {
     async function getApiUser() {
       const resp = await getUser(user.sub);
@@ -31,7 +37,7 @@ export default function Home() {
       setCompetitions(compResp);
 
       const workResp = await getWorkoutsForUser(resp.id);
-      setWorkouts(workResp)
+      setWorkouts(calcAllPoints(workResp))
     }
 
     if (!apiUser.id) {
@@ -42,8 +48,8 @@ export default function Home() {
   const competitionList = () => {
     if (competitions == null) return <div></div>;
     return competitions.map((competition) => (
-      <Grid item xs={12} sm={4}>
-        <CompetitionCard key={competition.id} competition={competition} />
+      <Grid item xs={12} sm={4} key={competition.id} >
+        <CompetitionCard competition={competition} />
       </Grid>
     ));
   };
@@ -107,7 +113,9 @@ export default function Home() {
               </Button>
             </Grid>
             <Grid item xs={12}>
-              {workoutList()}
+            <DataGrid autoHeight rows={workoutsDisp(workouts, [apiUser])} columns={workoutGridCols}
+                    initialState={workoutInitialState}
+                    pageSizeOptions={[5, 10, 25]} />
             </Grid>
           </Grid>
         </Box>

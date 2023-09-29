@@ -1,22 +1,65 @@
+import dayjs from "dayjs";
+
 function calcPoints(workout) {
     let points = 0;
     const duration = workout.duration;
     const intensity = workout.intensity;
     switch(workout.category){
         case 1://Strength
-            points = (duration/1000) * Math.pow(intensity, 1.8)
+            points = (duration/1000) * Math.pow(Math.min(intensity, 69), 1.8)
             break;
         case 2://Cardio
-            points = (duration/1000) * Math.pow((intensity-69), 2)
+            points = (duration/1000) * Math.pow((Math.min(intensity, 69)-69), 2)
             break;
         case 3://Wellness
             points = duration
+            break;
+        case 4://USP
+            points = intensity
             break;
         default:
             break;
     }
 
-    return Math.floor(points);
+    const multiplier = 1 + (.01 * workout.multiplier);
+    return Math.floor(points * multiplier);
+}
+
+function calcAllPoints(workouts) {
+    workouts = workouts.sort((a, b) => {
+        const adate = dayjs(a.date);
+        const bdate = dayjs(b.date);
+        return adate.diff(bdate,'day');
+    })
+    let lastWorkouts = {}
+    for(const workout of workouts){
+        if(!lastWorkouts[workout.owner]){
+            lastWorkouts[workout.owner] = {
+                date: dayjs(workout.date),
+                multiplier: 0
+            }
+        }
+
+        const workoutdate = dayjs(workout.date);
+        const dateDiff = workoutdate.diff(lastWorkouts[workout.owner].date, 'day');
+        switch(dateDiff){
+            case 0://don't add or reset if multiple workouts on the same day
+                break;
+            case 1://add if workouts are one day apart
+                if(workout.category === 1 || workout.category === 2){
+                    lastWorkouts[workout.owner].date = workoutdate;
+                    lastWorkouts[workout.owner].multiplier = Math.min(lastWorkouts[workout.owner].multiplier + 1, 10);
+                }
+                break;
+            default://reset if workouts are more than a day apart
+                lastWorkouts[workout.owner].multiplier = 0;
+                break;
+        }
+
+        workout.multiplier = lastWorkouts[workout.owner].multiplier;
+        workout.points = calcPoints(workout);
+    }
+    return workouts
 }
 
 function getUsername(userid, users){
@@ -61,24 +104,34 @@ function getPointsBreakdown(workouts, users){
                 wellness: 0,
                 wellnessRank: 0,
                 wellnessDisp: '',
+                usp: 0,
                 totalPoints: 0,
                 rank: 0,
                 owner: workout.owner,
+                lastworkout: dayjs('1/1/1900'),//initial state for calcing multiplier
+                multiplier: 0,
                 id: rowcnt
             }
             pointBreakdown.push(row);
             rowcnt++;
         }
+
+        const multiplier = 1 + (.01 * row.multiplier);
+        const date1 = dayjs('2019-01-25')
+        date1.diff('2018-06-05', 'month', true)
         
         switch(workout.category){
             case 1://Strength
-                row.strength += points
+                row.strength += workout.points;
                 break;
             case 2://Cardio
-                row.cardio += points
+                row.cardio += workout.points;
                 break;
             case 3://Wellness
-                row.wellness += points
+                row.wellness += workout.points;
+                break;
+            case 4://USP
+                row.usp += workout.points;
                 break;
             default:
                 break;
@@ -101,4 +154,4 @@ function getPointsBreakdown(workouts, users){
     return pointBreakdown;
 }
 
-export { calcPoints, getPointsBreakdown }
+export { calcPoints, getPointsBreakdown, calcAllPoints }
