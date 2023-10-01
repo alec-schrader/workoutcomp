@@ -6,10 +6,10 @@ function calcPoints(workout) {
     const intensity = workout.intensity;
     switch(workout.category){
         case 1://Strength
-            points = (duration/1000) * Math.pow(Math.min(intensity, 69), 1.8)
+            points = (duration/1000) * Math.pow(Math.max(intensity, 69), 1.8)
             break;
         case 2://Cardio
-            points = (duration/1000) * Math.pow((Math.min(intensity, 69)-69), 2)
+            points = (duration/1000) * Math.pow((Math.max(intensity, 69)-69), 2)
             break;
         case 3://Wellness
             points = duration
