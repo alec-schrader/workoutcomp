@@ -4,20 +4,21 @@ import { VictoryStack, VictoryChart, VictoryBar, VictoryAxis, VictoryTooltip, Vi
 const transformData = function (dataset) {
   let ret = []
   ret.push(dataset.map((data) => {
-    return { x: data.username, y: data.cardioRank, label: `Cardio: ${data.cardioRank}` }
+    console.log(data.username.substring(0,5))
+    return { x: data.username.substring(0,5), y: data.cardioRank, label: `Cardio: ${data.cardioRank}` }
   }));
   ret.push(dataset.map((data) => {
-    return { x: data.username, y: data.strengthRank, label: `Strength: ${data.strengthRank}` }
+    return { x: data.username.substring(0,5), y: data.strengthRank, label: `Strength: ${data.strengthRank}` }
   }));
   ret.push(dataset.map((data) => {
-    return { x: data.username, y: data.wellnessRank, label: `Wellness: ${data.wellnessRank}` }
+    return { x: data.username.substring(0,5), y: data.wellnessRank, label: `Wellness: ${data.wellnessRank}` }
   }));
   return ret;
 };
 
 const LeaderboardChart = (props) => {
   const data = props.data;
-  const ticks = data.map((data) => data.username)
+  const ticks = data.map((data) => data.username.substring(0,5))
 
   return (
     <div>
