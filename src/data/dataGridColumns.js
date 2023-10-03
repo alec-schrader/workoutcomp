@@ -13,7 +13,7 @@ const workoutsColumns = [
     { field: 'intensity', headerName: 'Intensity', width: 100 },
     { field: 'points', headerName: 'Points', width: 100 },
     { field: 'streak', headerName: 'Streak', width: 100 },
-    { field: 'note', headerName: 'Note', width: 100 },
+    { field: 'note', headerName: 'Note', width: 200 },
 ];
 
 const workoutActionColumn = {
