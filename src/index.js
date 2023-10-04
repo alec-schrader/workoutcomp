@@ -15,7 +15,6 @@ root.render(
       audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       scope: "openid profile email",
     }}
-    useRefreshTokens
     cacheLocation="localstorage"
   >
     <LocalizationProvider dateAdapter={AdapterDayjs}>
