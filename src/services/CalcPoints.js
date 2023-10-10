@@ -52,6 +52,7 @@ function calcAllPoints(workouts) {
                 }
                 break;
             default://reset if workouts are more than a day apart
+                lastWorkouts[workout.owner].date = workoutdate;
                 lastWorkouts[workout.owner].multiplier = 0;
                 break;
         }
