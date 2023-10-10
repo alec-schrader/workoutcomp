@@ -4,7 +4,6 @@ import { VictoryStack, VictoryChart, VictoryBar, VictoryAxis, VictoryTooltip, Vi
 const transformData = function (dataset) {
   let ret = []
   ret.push(dataset.map((data) => {
-    console.log(data.username.substring(0,5))
     return { x: data.username.substring(0,5), y: data.cardioRank, label: `Cardio: ${data.cardioRank}` }
   }));
   ret.push(dataset.map((data) => {

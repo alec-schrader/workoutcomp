@@ -29,7 +29,11 @@ function calcAllPoints(workouts) {
     workouts = workouts.sort((a, b) => {
         const adate = dayjs(a.date);
         const bdate = dayjs(b.date);
-        return adate.diff(bdate,'day');
+        const diff = adate.diff(bdate,'day');
+        if(diff === 0){
+            return b.category - a.category
+        }
+        return diff
     })
     let lastWorkouts = {}
     for(const workout of workouts){

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import dayjs from "dayjs";
 import {
   Grid,
   Container,
@@ -15,13 +14,10 @@ import {
   getCompetitionWorkouts,
   getCompetitionsUsers,
 } from "../services/CompetitionService";
-import { workoutsColumns, workoutsDisp, workoutActionColumn, workoutInitialState } from "../data/dataGridColumns"
-import { getPointsBreakdown, calcPoints, calcAllPoints } from "../services/CalcPoints"
-import { WorkoutCardComp } from "../components/WorkoutCard";
+import { workoutsColumns, workoutsDisp, workoutInitialState } from "../data/dataGridColumns"
+import { getPointsBreakdown, calcAllPoints } from "../services/CalcPoints"
 import { UserCard } from "../components/UserCard";
 import LeaderboardChart from "../components/LeaderboardChart";
-import CompetitionDatePercentage from "../components/CompetitionDatePercentage";
-import categoryChoices from "../data/workoutCategories";
 
 export default function Competition() {
   const { competitionId } = useParams();

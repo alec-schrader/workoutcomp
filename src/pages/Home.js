@@ -13,7 +13,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import { calcAllPoints } from "../services/CalcPoints"
 import { workoutsColumns, workoutsDisp, workoutActionColumn, workoutInitialState } from "../data/dataGridColumns"
 import CompetitionCard from "../components/CompetitionCard";
-import { WorkoutCard } from "../components/WorkoutCard";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUser } from "../services/UserService";
 import { getCompetitionsForUser } from "../services/CompetitionService";
@@ -51,13 +50,6 @@ export default function Home() {
       <Grid item xs={12} sm={4} key={competition.id} >
         <CompetitionCard competition={competition} />
       </Grid>
-    ));
-  };
-
-  const workoutList = () => {
-    if (workouts == null) return <div></div>;
-    return workouts.map((workout) => (
-      <WorkoutCard key={workout.id} workout={workout} />
     ));
   };
 
