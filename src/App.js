@@ -57,7 +57,7 @@ export default function App() {
 
   useEffect(() => {
     addAccessTokenInterceptor(getAccessTokenSilently, getAccessTokenWithPopup);
-  }, [getAccessTokenSilently]);
+  }, [getAccessTokenSilently, getAccessTokenWithPopup]);
 
   let indexRoute = <Route index element={<Welcome />} />;
   if (isLoading) indexRoute = <Route index element={<PageLoader />} />;
