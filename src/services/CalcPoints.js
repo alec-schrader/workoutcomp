@@ -31,7 +31,7 @@ function calcAllPoints(workouts) {
         const bdate = dayjs(b.date);
         const diff = adate.diff(bdate,'day');
         if(diff === 0){
-            return b.category - a.category
+            return a.category - b.category
         }
         return diff
     })
