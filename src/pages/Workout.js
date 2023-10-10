@@ -150,6 +150,7 @@ export default function Workout() {
                 </Grid>
                 <Grid item xs={12} sm={4} mb={2}>
                   <DatePicker
+                    disabled
                     required
                     label="Date"
                     inputFormat="MM/DD/YYYY"

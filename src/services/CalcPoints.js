@@ -59,6 +59,7 @@ function calcAllPoints(workouts) {
         workout.multiplier = lastWorkouts[workout.owner].multiplier;
         workout.points = calcPoints(workout);
     }
+    console.log(workouts)
     return workouts
 }
 
@@ -82,7 +83,6 @@ function getPointsBreakdown(workouts, users){
     let pointBreakdown = [];
     let rowcnt = 0;
     for(const workout of workouts) {
-        const points = calcPoints(workout);
         let row;
         //get row if it exists
         for(const r of pointBreakdown){
@@ -93,6 +93,7 @@ function getPointsBreakdown(workouts, users){
         } 
         //create it if it doesn't
         if(!row){
+            console.log(workout)
             row = { 
                 username: getUsername(workout.owner, users),
                 strength: 0,
@@ -116,7 +117,6 @@ function getPointsBreakdown(workouts, users){
             rowcnt++;
         }
 
-        const multiplier = 1 + (.01 * row.multiplier);
         const date1 = dayjs('2019-01-25')
         date1.diff('2018-06-05', 'month', true)
         
