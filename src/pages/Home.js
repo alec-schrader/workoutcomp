@@ -25,7 +25,7 @@ export default function Home() {
   const [workouts, setWorkouts] = useState([]);
 
   const workoutGridCols = workoutsColumns
-  workoutGridCols.push(workoutActionColumn);
+  workoutGridCols.unshift(workoutActionColumn);
 
   useEffect(() => {
     async function getApiUser() {

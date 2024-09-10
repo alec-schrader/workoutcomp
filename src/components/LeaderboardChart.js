@@ -4,13 +4,13 @@ import { VictoryStack, VictoryChart, VictoryBar, VictoryAxis, VictoryTooltip, Vi
 const transformData = function (dataset) {
   let ret = []
   ret.push(dataset.map((data) => {
-    return { x: data.username.substring(0,5), y: data.cardioRank, label: `Cardio: ${data.cardioRank}` }
+    return { x: data.username.substring(0,5), y: data.cardio.points, label: `Cardio: ${data.cardio.points}` }
   }));
   ret.push(dataset.map((data) => {
-    return { x: data.username.substring(0,5), y: data.strengthRank, label: `Strength: ${data.strengthRank}` }
+    return { x: data.username.substring(0,5), y: data.strength.points, label: `Strength: ${data.strength.points}` }
   }));
   ret.push(dataset.map((data) => {
-    return { x: data.username.substring(0,5), y: data.wellnessRank, label: `Wellness: ${data.wellnessRank}` }
+    return { x: data.username.substring(0,5), y: data.wellness.points, label: `Wellness: ${data.wellness.points}` }
   }));
   return ret;
 };

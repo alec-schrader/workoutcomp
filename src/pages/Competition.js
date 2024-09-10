@@ -17,6 +17,8 @@ import {
 import { workoutsColumns, workoutsDisp, workoutInitialState } from "../data/dataGridColumns"
 import { getPointsBreakdown, calcAllPoints } from "../services/CalcPoints"
 import { UserCard } from "../components/UserCard";
+import { StatCard } from "../components/StatCard";
+import CompWorkoutData from "../components/CompWorkoutData";
 import LeaderboardChart from "../components/LeaderboardChart";
 
 export default function Competition() {
@@ -37,7 +39,7 @@ export default function Competition() {
       const userResp = await getCompetitionsUsers(competitionId);
       setUsers(userResp);
     
-      const points = getPointsBreakdown(workResp, userResp)
+      const points = getPointsBreakdown(workResp, userResp);
       setPoints(points);
     }
 
@@ -52,6 +54,13 @@ export default function Competition() {
     ));
   };
 
+  const statsList = () => {
+    return points.map((user) => (
+        <Grid item xs={12} lg={4} key={user.id}>
+            <StatCard user={user} />
+        </Grid>
+    ));
+  };
 
   const pointsColumns = [
     { field: 'username', headerName: 'Name', width: 150 },
@@ -78,17 +87,16 @@ export default function Competition() {
               <LeaderboardChart data={points}></LeaderboardChart>
             </Grid>
             <Grid item xs={12}>
-                <Typography variant="h4">Points Breakdown</Typography>
+                <Typography variant="h4">Stats</Typography>
                 <Divider></Divider>
-                <DataGrid autoHeight rows={points} columns={pointsColumns}
-                    initialState={{
-                        pagination: { paginationModel: { pageSize: 5 } },
-                    }}
-                    pageSizeOptions={[5, 10, 25]} />
+                <Grid container>
+                    {statsList()}
+                </Grid>
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h4">Workout Feed</Typography>
               <Divider></Divider>
+              <CompWorkoutData rows={workoutsDisp(workouts, users)}></CompWorkoutData>
               <DataGrid autoHeight rows={workoutsDisp(workouts, users)} columns={workoutsColumns} 
                     initialState={workoutInitialState}
                     pageSizeOptions={[5, 10, 25]} />

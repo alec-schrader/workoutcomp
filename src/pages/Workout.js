@@ -31,18 +31,28 @@ export default function Workout() {
   const [intensity, setIntensity] = useState(0);
   const [note, setNote] = useState('');
 
+  const [showIntensity, setShowIntensity] = useState(false);
+  const [intensityLabel, setIntensityLabel] = useState('');
+  const [showDuration, setShowDuration] = useState('');
+
+  const [pageTitle, setPageTitle] = useState('Add Workout');
+
   useEffect(() => {
     async function getData() {
       const resp = await getWorkout(workoutId);
-      setCategory(resp.category);
+      handleCategoryChange(resp.category);
       setDate(dayjs(resp.date));
       setDurationHours(Math.floor(resp.duration / 60));
       setDurationMinutes(resp.duration % 60);
       setIntensity(resp.intensity);
       setNote(resp.note);
+      setPageTitle("Edit Workout")
     }
-
-    if (workoutId) getData();
+    if (workoutId){
+      getData();
+    } else{
+      handleCategoryChange(1);
+    }
   }, [workoutId]);
 
   const categoryList = () => {
@@ -74,12 +84,20 @@ export default function Workout() {
     window.location.replace("/");
   }
 
+  function handleCategoryChange(value){
+    const category = categoryChoices[value - 1];
+    setCategory(value);
+    setIntensityLabel(category.intensityLabel);
+    setShowIntensity(category.showIntensity);
+    setShowDuration(category.showDuration);
+  }
+
   return (
     <Container>
       <Paper>
         <Box alignContent={"center"} alignItems={"center"} textAlign={"center"}>
           <form method="put" onSubmit={handleSubmit}>
-            <Typography variant="h2">Congrats on your workout!</Typography>
+            <Typography variant="h3">{pageTitle}</Typography>
             <Divider></Divider>
 
             <Box mt={2} mb={2}>
@@ -101,7 +119,7 @@ export default function Workout() {
                     value={category}
                     row
                     onChange={(event) => {
-                      setCategory(event.target.value);
+                      handleCategoryChange(event.target.value);
                     }}
                   >
                     {categoryList()}
@@ -111,43 +129,48 @@ export default function Workout() {
               </Grid>
             </Box>
             <Divider></Divider>
+              <Box mt={2} mb={2}>
+                <Grid container>
+                {showDuration ? 
+                  <>
+                  <Grid item xs={12}>
+                    <Typography variant="h4" gutterBottom>
+                      Duration
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6} mb={2}>
+                    <TextField
+                      required
+                      id="durationHours"
+                      label="Hours"
+                      name="durationHours"
+                      value={durationHours}
+                      type="number"
+                      onChange={(event) => {
+                        setDurationHours(event.target.value);
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} mb={2}>
+                    <TextField
+                      required
+                      id="durationMinutes"
+                      label="Mintutes"
+                      name="durationMinutes"
+                      value={durationMinutes}
+                      type="number"
+                      onChange={(event) => {
+                        setDurationMinutes(event.target.value);
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} mt={2} mb={2}>
+                    <Divider></Divider>
+                  </Grid>
+                  </>
+                  : <></>
+                } 
 
-            <Box mt={2} mb={2}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Typography variant="h4" gutterBottom>
-                    Duration
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} mb={2}>
-                  <TextField
-                    required
-                    id="durationHours"
-                    label="Hours"
-                    name="durationHours"
-                    value={durationHours}
-                    type="number"
-                    onChange={(event) => {
-                      setDurationHours(event.target.value);
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} mb={2}>
-                  <TextField
-                    required
-                    id="durationMinutes"
-                    label="Mintutes"
-                    name="durationMinutes"
-                    value={durationMinutes}
-                    type="number"
-                    onChange={(event) => {
-                      setDurationMinutes(event.target.value);
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} mt={2} mb={2}>
-                  <Divider></Divider>
-                </Grid>
                 <Grid item xs={12} sm={4} mb={2}>
                   <DatePicker
                     disabled
@@ -160,19 +183,22 @@ export default function Workout() {
                     name="date"
                   />
                 </Grid>
-                <Grid item xs={12} sm={4} mb={2}>
-                  <TextField
-                    required
-                    id="intensity"
-                    label="Intensity"
-                    name="intensity"
-                    value={intensity}
-                    type="number"
-                    onChange={(event) => {
-                      setIntensity(event.target.value);
-                    }}
-                  />
-                </Grid>
+                {showIntensity ?
+                  <Grid item xs={12} sm={4} mb={2}>
+                    <TextField
+                      required
+                      id="intensity"
+                      label={intensityLabel}
+                      name="intensity"
+                      value={intensity}
+                      type="number"
+                      onChange={(event) => {
+                        setIntensity(event.target.value);
+                      }}
+                    />
+                  </Grid>
+                  : <></>
+                }
                 <Grid item xs={12} sm={4} mb={2}>
                   <TextField
                     required

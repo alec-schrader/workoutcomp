@@ -64,7 +64,6 @@ function calcAllPoints(workouts) {
         workout.multiplier = lastWorkouts[workout.owner].multiplier;
         workout.points = calcPoints(workout);
     }
-    console.log(workouts)
     return workouts
 }
 
@@ -76,10 +75,11 @@ function getUsername(userid, users){
 
 function getRowRankings(rows, category) {
     const pointsPerCategory = rows.length - 1;
-    rows = rows.sort((a,b) => b[category] - a[category]);
+    rows = rows.sort((a,b) => b[category].score - a[category].score);
     for(let i = 0; i < rows.length; i++){
-        rows[i][category + 'Rank'] = pointsPerCategory - i;
-        rows[i][category + 'Disp'] = `${rows[i][category]} (${pointsPerCategory - i})`
+        rows[i][category].points = pointsPerCategory - i;
+        rows[i][category].rank = i;
+        rows[i][category].disp = `${rows[i][category].score} (${pointsPerCategory - i})`
     }
     return rows
 }
@@ -98,56 +98,45 @@ function getPointsBreakdown(workouts, users){
         } 
         //create it if it doesn't
         if(!row){
-            console.log(workout)
-            row = { 
-                username: getUsername(workout.owner, users),
-                strength: 0,
-                strengthRank:0,
-                strengthDisp:'',
-                cardio: 0,
-                cardioRank:0,
-                cardioDisp:'',
-                wellness: 0,
-                wellnessRank: 0,
-                wellnessDisp: '',
-                usp: 0,
-                totalPoints: 0,
-                rank: 0,
-                owner: workout.owner,
-                lastworkout: dayjs('1/1/1900'),//initial state for calcing multiplier
-                multiplier: 0,
-                id: rowcnt
-            }
+            row = new pointBreakdownRow(workout, users, rowcnt)
             pointBreakdown.push(row);
             rowcnt++;
         }
 
         const date1 = dayjs('2019-01-25')
         date1.diff('2018-06-05', 'month', true)
-        
+        let category;
         switch(workout.category){
             case 1://Strength
-                row.strength += workout.points;
+                category = row.strength;
                 break;
             case 2://Cardio
-                row.cardio += workout.points;
+                category = row.cardio;
                 break;
             case 3://Wellness
-                row.wellness += workout.points;
+                category = row.wellness;
                 break;
             case 4://USP
-                row.usp += workout.points;
+                category = row.usp;
                 break;
             default:
                 break;
-        }    
+        }   
+        
+        category.score += workout.points;
+        category.totalDuration += workout.duration;
+        category.totalIntensity += workout.intensity;
+        category.workoutsCnt++;
     }
     pointBreakdown = getRowRankings(pointBreakdown, 'cardio');
     pointBreakdown = getRowRankings(pointBreakdown, 'strength');
     pointBreakdown = getRowRankings(pointBreakdown, 'wellness');
 
     for(const row of pointBreakdown) {
-        row.totalPoints = row.cardioRank + row.strengthRank + row.wellnessRank
+        row.totalPoints = row.cardio.points + row.strength.points + row.wellness.points;
+        row.strength.setAverages();
+        row.cardio.setAverages();
+        row.wellness.setAverages();
     }
 
     pointBreakdown = pointBreakdown.sort((a,b) => b.totalPoints - a.totalPoints);
@@ -157,6 +146,41 @@ function getPointsBreakdown(workouts, users){
     }
 
     return pointBreakdown;
+}
+
+class pointBreakdownRow{
+    constructor(workout, users, rowcnt) {
+        this.username = getUsername(workout.owner, users);
+        this.strength = new pointBreakdownCategory();
+        this.cardio = new pointBreakdownCategory();
+        this.wellness = new pointBreakdownCategory();
+        this.usp = new pointBreakdownCategory();
+        this.totalPoints = 0;
+        this.rank = 0;
+        this.owner = workout.owner;
+        this.lastworkout = dayjs('1/1/1900');//initial state for calcing multiplier
+        this.multiplier = 0;
+        this.id = rowcnt;
+    }
+}
+
+class pointBreakdownCategory {
+    constructor() {
+        this.points = 0;//overall points;
+        this.score = 0;//total points of workouts
+        this.rank = 0;
+        this.disp = 0;
+        this.avgIntensity = 0;
+        this.totalIntensity = 0;
+        this.avgDuration = 0;
+        this.totalDuration = 0;
+        this.workoutsCnt = 0;
+    };
+
+    setAverages(){
+        this.avgDuration = (this.totalDuration/this.workoutsCnt).toFixed(2);
+        this.avgIntensity = (this.totalIntensity/this.workoutsCnt).toFixed(2);
+    }
 }
 
 export { calcPoints, getPointsBreakdown, calcAllPoints }

@@ -3,23 +3,28 @@ import categoryChoices from "./workoutCategories";
 import {
     Stack,
     Button,
+    Typography,
 } from "@mui/material";
+import StrengthIcon from '@mui/icons-material/FitnessCenter';
+import CardioIcon from '@mui/icons-material/DirectionsRun';
+import WellnessIcon from '@mui/icons-material/SelfImprovement';
+import USPIcon from '@mui/icons-material/SportsBar';
+
   
 const workoutsColumns = [
-    { field: 'username', headerName: 'Name', width: 150 },
+    { field: 'username', headerName: 'Name', width: 100 },
+    { field: 'category', headerName: 'Category', width: 100, 
+        renderCell: (params) => {
+            return getCategoryIcon(params.value, params.row.points)
+        }
+    },
     { field: 'date', headerName: 'Date', width: 100 },
-    { field: 'category', headerName: 'Category', width: 100 },
-    { field: 'duration', headerName: 'Duration', width: 100 },
-    { field: 'intensity', headerName: 'Intensity', width: 100 },
-    { field: 'points', headerName: 'Points', width: 100 },
-    { field: 'streak', headerName: 'Streak', width: 100 },
-    { field: 'note', headerName: 'Note', width: 200 },
 ];
 
 const workoutActionColumn = {
     field: 'action',
     headerName: 'Action',
-    width: 180,
+    width: 75,
     sortable: false,
     disableClickEventBubbling: true,
 
@@ -40,13 +45,22 @@ function getUser(id, users) {
     }
 }
 
+function getCategoryIcon(category, points) {
+    switch(category){
+        case "Strength": return <><StrengthIcon></StrengthIcon><Typography>{points} pts</Typography></>;
+        case "Cardio": return <><CardioIcon></CardioIcon><Typography>{points} pts</Typography></>;
+        case "Wellness": return <><WellnessIcon></WellnessIcon><Typography>{points} pts</Typography></>;
+        case "USP": return <><USPIcon></USPIcon><Typography>{points} pts</Typography></>;
+    }
+}
+
 const workoutsDisp = (workouts, users) => {
     return workouts.map((workout) => {
         const user = getUser(workout.owner, users);
         return {
             id: workout.id,
             username: user && user.profile.username ? user.profile.username : 'Primal',
-            date: dayjs(workout.date).format('MM/DD/YYYY'),
+            date: dayjs(workout.date).format('MM/DD'),
             category: categoryChoices[workout.category - 1].name,
             duration: workout.duration,
             intensity: workout.intensity,
