@@ -3,7 +3,6 @@ import categoryChoices from "./workoutCategories";
 import {
     Stack,
     Button,
-    Typography,
 } from "@mui/material";
 import StrengthIcon from '@mui/icons-material/FitnessCenter';
 import CardioIcon from '@mui/icons-material/DirectionsRun';
@@ -15,7 +14,7 @@ const workoutsColumns = [
     { field: 'username', headerName: 'Name', width: 100 },
     { field: 'category', headerName: 'Category', width: 100, 
         renderCell: (params) => {
-            return getCategoryIcon(params.value, params.row.points)
+            return getCategoryIcon(params.value.name, params.row.points)
         }
     },
     { field: 'date', headerName: 'Date', width: 100 },
@@ -45,12 +44,13 @@ function getUser(id, users) {
     }
 }
 
-function getCategoryIcon(category, points) {
+function getCategoryIcon(category) {
     switch(category){
-        case "Strength": return <><StrengthIcon></StrengthIcon><Typography>{points} pts</Typography></>;
-        case "Cardio": return <><CardioIcon></CardioIcon><Typography>{points} pts</Typography></>;
-        case "Wellness": return <><WellnessIcon></WellnessIcon><Typography>{points} pts</Typography></>;
-        case "USP": return <><USPIcon></USPIcon><Typography>{points} pts</Typography></>;
+        case "Strength": return <><StrengthIcon></StrengthIcon></>;
+        case "Cardio": return <><CardioIcon></CardioIcon></>;
+        case "Wellness": return <><WellnessIcon></WellnessIcon></>;
+        case "USP": return <><USPIcon></USPIcon></>;
+        default: return<></>
     }
 }
 
@@ -61,7 +61,8 @@ const workoutsDisp = (workouts, users) => {
             id: workout.id,
             username: user && user.profile.username ? user.profile.username : 'Primal',
             date: dayjs(workout.date).format('MM/DD'),
-            category: categoryChoices[workout.category - 1].name,
+            category: categoryChoices[workout.category - 1],
+            activity: workout.activity,
             duration: workout.duration,
             intensity: workout.intensity,
             points: workout.points || 0,
@@ -79,4 +80,4 @@ const workoutInitialState = {
 }
 
 
-export { workoutsColumns, workoutsDisp, workoutActionColumn, workoutInitialState };
+export { workoutsColumns, workoutsDisp, workoutActionColumn, workoutInitialState, getCategoryIcon };

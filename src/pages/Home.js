@@ -67,6 +67,9 @@ export default function Home() {
               <Typography variant="h2">
                 Welcome {apiUser ? apiUser.profile.username : "Primal"}!!!
               </Typography>
+              <Button variant="contained" href="workout">
+                Add Workout
+              </Button>
               <Divider></Divider>
             </Grid>
           </Grid>

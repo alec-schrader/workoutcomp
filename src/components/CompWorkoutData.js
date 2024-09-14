@@ -15,6 +15,11 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
+import Collapse from '@mui/material/Collapse';
+import Typography from '@mui/material/Typography';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import {getCategoryIcon} from "../data/dataGridColumns";
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -77,6 +82,61 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
+function Row(props) {
+    const { row } = props;
+    const [open, setOpen] = React.useState(false);
+    console.log(row);
+    return (
+      <React.Fragment>
+        <TableRow>
+          <TableCell padding="none" size="small" width="10%">
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+          <TableCell align="left" padding="none" size="small" width="10%">{row.date}</TableCell>
+          <TableCell align="left" padding="none" size="small" width="10%">{row.username}</TableCell>
+          <TableCell align="left" padding="none" size="small" width="10%">{getCategoryIcon(row.category.name)}</TableCell>
+          <TableCell align="left" padding="none" size="small" width="10%">{row.points} pts</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 1 }}>
+                <Typography variant="h6" gutterBottom component="div">
+                  Details
+                </Typography>
+                {row.category.showDuration ?
+                    <Typography variant="body1" gutterBottom component="div">
+                        Duration: {row.duration} min
+                    </Typography>
+                    : <></>
+                }
+                {row.category.showIntensity ?
+                    <Typography variant="body1" gutterBottom component="div">
+                        {row.category.intensityLabel}: {row.intensity} bpm
+                    </Typography>
+                    : <></>
+                }
+                <Typography variant="body1" gutterBottom component="div">
+                    Activity: {row.activity}
+                </Typography>
+                <Typography variant="body1" gutterBottom component="div">
+                    Note: {row.note}
+                </Typography>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      </React.Fragment>
+    );
+  }
+
+
 export default function CompWorkoutData(parms) {
     const rows = parms.rows;
 
@@ -100,23 +160,13 @@ export default function CompWorkoutData(parms) {
 
     return (
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+            <Table aria-label="custom pagination table">
                 <TableBody>
                     {(rowsPerPage > 0
                         ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         : rows
                     ).map((row) => (
-                        <TableRow key={row.name}>
-                            <TableCell component="th" scope="row">
-                                {row.username}
-                            </TableCell>
-                            <TableCell style={{ width: 160 }} align="right">
-                                {row.calories}
-                            </TableCell>
-                            <TableCell style={{ width: 160 }} align="right">
-                                {row.fat}
-                            </TableCell>
-                        </TableRow>
+                        <Row row={row}></Row>
                     ))}
                     {emptyRows > 0 && (
                         <TableRow style={{ height: 53 * emptyRows }}>
@@ -127,8 +177,7 @@ export default function CompWorkoutData(parms) {
                 <TableFooter>
                     <TableRow>
                         <TablePagination
-                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                            colSpan={3}
+                            rowsPerPageOptions={[5,10,25]}
                             count={rows.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
@@ -140,6 +189,7 @@ export default function CompWorkoutData(parms) {
                                     native: true,
                                 },
                             }}
+                            labelRowsPerPage=""
                             onPageChange={handleChangePage}
                             onRowsPerPageChange={handleChangeRowsPerPage}
                             ActionsComponent={TablePaginationActions}

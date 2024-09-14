@@ -25,6 +25,7 @@ import categoryChoices from "../data/workoutCategories";
 export default function Workout() {
   const { workoutId } = useParams();
   const [category, setCategory] = useState(1);
+  const [activity, setActivity] = useState('');
   const [date, setDate] = useState(dayjs());
   const [durationHours, setDurationHours] = useState(0);
   const [durationMinutes, setDurationMinutes] = useState(0);
@@ -41,6 +42,7 @@ export default function Workout() {
     async function getData() {
       const resp = await getWorkout(workoutId);
       handleCategoryChange(resp.category);
+      setActivity(resp.activity);
       setDate(dayjs(resp.date));
       setDurationHours(Math.floor(resp.duration / 60));
       setDurationMinutes(resp.duration % 60);
@@ -70,6 +72,7 @@ export default function Workout() {
     e.preventDefault();
     const newWorkout = {
       category: category,
+      activity: activity,
       date: date.format("YYYY-MM-DD"),
       duration: parseInt(durationHours) * 60 + parseInt(durationMinutes),
       intensity: intensity,
@@ -200,6 +203,20 @@ export default function Workout() {
                   : <></>
                 }
                 <Grid item xs={12} sm={4} mb={2}>
+                  <TextField
+                    required
+                    id="activity"
+                    label="Activity"
+                    name="activity"
+                    value={activity}
+                    inputProps={{ maxLength: 50 }}
+                    onChange={(event) => {
+                      setActivity(event.target.value);
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} mb={12}>
                   <TextField
                     required
                     id="note"

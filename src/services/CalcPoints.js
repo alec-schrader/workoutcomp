@@ -176,10 +176,10 @@ class pointBreakdownCategory {
         this.totalDuration = 0;
         this.workoutsCnt = 0;
     };
-
     setAverages(){
         this.avgDuration = (this.totalDuration/this.workoutsCnt).toFixed(2);
         this.avgIntensity = (this.totalIntensity/this.workoutsCnt).toFixed(2);
+        this.avgPoints = (this.score/this.workoutsCnt).toFixed(2);
     }
 }
 

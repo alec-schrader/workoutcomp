@@ -26,7 +26,7 @@ const StatCard = (parms) => {
         <Grid container>
           <Grid item xs={12}>
             <Typography gutterBottom variant="h5">
-                {user.rank == 1 ? <TrophyIcon></TrophyIcon> : ""}
+                {user.rank === 1 ? <TrophyIcon></TrophyIcon> : ""}
                 {user.username}
             </Typography>
             <Typography gutterBottom variant="body1">
@@ -57,6 +57,21 @@ const StatCard = (parms) => {
                             >
                               Avg. HR: {user.strength.avgIntensity} bpm
                             </Typography>
+                            <Typography
+                              component="p"
+                              variant="body2"
+                              sx={{ color: 'text.primary' }}
+                            >
+                              Avg. Pts/Workout: {user.strength.avgPoints}
+                            </Typography>
+                            <Typography
+                              component="p"
+                              variant="body2"
+                              sx={{ color: 'text.primary' }}
+                            >
+                              Workouts: {user.strength.workoutsCnt}
+                            </Typography>
+
                           </React.Fragment>}
                         >
                     </ListItemText>
@@ -84,6 +99,21 @@ const StatCard = (parms) => {
                             >
                               Avg. HR: {user.cardio.avgIntensity} bpm
                             </Typography>
+                            <Typography
+                              component="p"
+                              variant="body2"
+                              sx={{ color: 'text.primary' }}
+                            >
+                              Avg. Pts/Workout: {user.cardio.avgPoints}
+                            </Typography>
+                            <Typography
+                              component="p"
+                              variant="body2"
+                              sx={{ color: 'text.primary' }}
+                            >
+                              Workouts: {user.cardio.workoutsCnt}
+                            </Typography>
+
                           </React.Fragment>}
                         >
                     </ListItemText>
@@ -96,7 +126,30 @@ const StatCard = (parms) => {
                     </ListItemIcon>
                     <ListItemText 
                         primary={user.wellness.score + " points"} 
-                        secondary={"Avg. Duration: " + user.wellness.avgDuration + " min"}>
+                        secondary={<React.Fragment>
+                            <Typography
+                              component="p"
+                              variant="body2"
+                              sx={{ color: 'text.primary' }}
+                            >
+                              Avg. Duration: {user.wellness.avgDuration} min
+                            </Typography>
+                            <Typography
+                              component="p"
+                              variant="body2"
+                              sx={{ color: 'text.primary' }}
+                            >
+                              Avg. Pts/Workout: {user.wellness.avgPoints}
+                            </Typography>
+                            <Typography
+                              component="p"
+                              variant="body2"
+                              sx={{ color: 'text.primary' }}
+                            >
+                              Workouts: {user.wellness.workoutsCnt}
+                            </Typography>
+
+                          </React.Fragment>}>
                     </ListItemText>
                 </ListItem>
             </List>
