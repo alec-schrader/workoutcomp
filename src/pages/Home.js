@@ -25,7 +25,7 @@ export default function Home() {
   const [workouts, setWorkouts] = useState([]);
 
   const workoutGridCols = workoutsColumns
-  workoutGridCols.push(workoutActionColumn);
+  workoutGridCols.unshift(workoutActionColumn);
 
   useEffect(() => {
     async function getApiUser() {
@@ -67,6 +67,9 @@ export default function Home() {
               <Typography variant="h2">
                 Welcome {apiUser ? apiUser.profile.username : "Primal"}!!!
               </Typography>
+              <Button variant="contained" href="workout">
+                Add Workout
+              </Button>
               <Divider></Divider>
             </Grid>
           </Grid>
